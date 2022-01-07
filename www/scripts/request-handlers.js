@@ -1,6 +1,5 @@
 const mysql = require("mysql");
 require("dotenv").config();
-const request = require('request');
 var axios = require("axios").default;
 
 const connectionOptions = {
@@ -10,12 +9,13 @@ const connectionOptions = {
     database: process.env.DATABASE
 };
 
-var requestOptions = {
+var axiosOptions = {
     method: 'GET',
     url: 'https://animalbreedapi.herokuapp.com/api/breeds',
     headers:{
-        'API_KEY' : process.env.ANIMAL_BREEDS_API_KEY
-    }
+        'API_KEY' : process.env.ANIMAL_BREEDS_API_KEY,
+        'ContentType' : 'application/json'
+    },
 }
 
 function getAnimals(req, res) {
@@ -88,21 +88,12 @@ function getPosts(req, res) {
 }
 
 function getBreeds(req, res) {
-    request(requestOptions, function (error, response, body) {
-        if (error) throw new Error(error);
-        console.log(body);
-    });
-
-    /*
-    axios.request(axiosOptions.then(function (responde){
-        console(response.data);
+    axios.request(axiosOptions).then(function (response){
+        console.log(response.data);
     }).catch(function(error){
         console.log(error);
-    }))
-    */
+    });
 }
-
-
 
 module.exports.getAnimals = getAnimals;
 module.exports.getUsers = getUsers;
