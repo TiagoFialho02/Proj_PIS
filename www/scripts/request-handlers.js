@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 require("dotenv").config();
 const request = require('request');
+var axios = require("axios").default;
 
 const connectionOptions = {
     host: process.env.HOST,
@@ -91,15 +92,17 @@ function getBreeds(req, res) {
         if (error) throw new Error(error);
         console.log(body);
     });
+
+    /*
+    axios.request(axiosOptions.then(function (responde){
+        console(response.data);
+    }).catch(function(error){
+        console.log(error);
+    }))
+    */
 }
 
 
-/*var axios = require("axios").default;
-axios.request(axiosOptions.then(function (responde){
-    console(response.data);
-}).catch(function(error){
-    console.log(error);
-}))*/
 
 module.exports.getAnimals = getAnimals;
 module.exports.getUsers = getUsers;
