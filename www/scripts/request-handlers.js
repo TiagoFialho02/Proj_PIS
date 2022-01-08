@@ -16,6 +16,9 @@ var axiosOptions = {
         'API_KEY' : process.env.ANIMAL_BREEDS_API_KEY,
         'ContentType' : 'application/json'
     },
+    data:{
+        'type': "dog"
+    }
 }
 
 function getAnimals(req, res) {
