@@ -98,26 +98,38 @@ function getAnimalsInfoForItem(req, res) {
     connection.end();
 }
 
-function getUsers(req, res) {
+function getExistingUsers(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
     };
-    let sql = mysql.format("SELECT * FROM users");
+    let username = req.body.username;
+    var password = Buffer.from("", 'base64');
+    console.log(req.body.password)
+    if(req.body.password){
+        password = Buffer.from(req.body.password, 'base64');
+    }
+    else
+        password = Buffer.from(req.body.password, 'base64');
+        //'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+    console.log(password)
+    let sql = mysql.format("SELECT * FROM users WHERE username = '?' AND password = '?'");
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
-    connection.query(sql, function (err, rows, fields) {
+    connection.query(sql, [username, password], function (err, rows, fields) {
         if (err) {
             res.json(errorMessage);
             console.log('Connection Error');
         } else {
+            console.log(sql);
             if (rows.length > 0) {
-                res.json(rows);
+                res.send("success");
             } else {
-                res.json(errorMessage);
+                res.send("failed");
             }
         }
     });
+    
     connection.end();
 }
 
@@ -161,7 +173,7 @@ function getCatBreeds(req, res) {
 }
 
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
-module.exports.getUsers = getUsers;
+module.exports.getExistingUsers = getExistingUsers;
 module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
