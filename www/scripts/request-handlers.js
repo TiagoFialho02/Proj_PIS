@@ -104,21 +104,22 @@ function getExistingUsers(req, res) {
         postalDescription: "***Connection Error***"
     };
     let username = req.body.username;
-    let password = '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+    let password = 0;
     if(req.body.password){
         password = Buffer.from(req.body.password, 'base64');
     }
-    let sql = mysql.format("SELECT * FROM users WHERE username = '?' AND password = '?'");
+    console.log(username + "" + password);
+    let sqlScript  = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = "+ password +""
+    let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
-    connection.query(sql, [username, parseInt(password)], function (err, rows, fields) {
+    connection.query(sql, function (err, rows, fields) {
         if (err) {
             res.json(errorMessage);
             console.log('Connection Error');
         } else {
-            console.log(sql);
             if (rows.length > 0) {
-                res.send("success");
+                res.send("found");
             } else {
                 res.send("failed");
             }
