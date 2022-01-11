@@ -104,19 +104,14 @@ function getExistingUsers(req, res) {
         postalDescription: "***Connection Error***"
     };
     let username = req.body.username;
-    var password = Buffer.from("", 'base64');
-    console.log(req.body.password)
+    let password = '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
     if(req.body.password){
         password = Buffer.from(req.body.password, 'base64');
     }
-    else
-        password = Buffer.from(req.body.password, 'base64');
-        //'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
-    console.log(password)
     let sql = mysql.format("SELECT * FROM users WHERE username = '?' AND password = '?'");
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
-    connection.query(sql, [username, password], function (err, rows, fields) {
+    connection.query(sql, [username, parseInt(password)], function (err, rows, fields) {
         if (err) {
             res.json(errorMessage);
             console.log('Connection Error');
