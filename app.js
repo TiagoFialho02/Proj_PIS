@@ -14,13 +14,15 @@ app.get('/', function (request, response) {
     });
 });
 
-app.get('/getAnimals', requestHandlers.getAnimals);
+app.get('/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.get('/getUsers', requestHandlers.getUsers);
 
 app.get('/getPosts', requestHandlers.getPosts);
 
-app.get('/getBreeds', requestHandlers.getBreeds);
+app.get('/getDogBreeds', requestHandlers.getDogBreeds);
+
+app.get('/getCatBreeds', requestHandlers.getCatBreeds);
 
 app.listen(8080, function () {
     console.log("Server running at http://localhost:8080");
