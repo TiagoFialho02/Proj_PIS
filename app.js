@@ -5,8 +5,8 @@ const { response } = require('express');
 require("dotenv").config();
 
 const app = express();
-
-
+app.use(express.json());
+app.use(express.urlencoded({ extend: false}))
 
 app.get('/', function (request, response) {
     fs.readFile(__dirname + "/www/index.html", function(err, data){
