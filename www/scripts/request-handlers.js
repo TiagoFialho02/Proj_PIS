@@ -17,7 +17,7 @@ var catAxiosOptions = {
         'ContentType' : 'application/json'
     },
     data:{
-        'type': "dog"
+        'type': "cat"
     }
 }
 
@@ -29,7 +29,7 @@ var dogAxiosOptions = {
         'ContentType' : 'application/json'
     },
     data:{
-        'type': "cat"
+        'type': "dog"
     }
 }
 
