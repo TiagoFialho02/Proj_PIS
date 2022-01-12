@@ -106,10 +106,10 @@ function getExistingUsers(req, res) {
     let username = req.body.username;
     let password = 0;
     if(req.body.password){
-        password = Buffer.from(req.body.password, 'base64');
+        password = req.body.password;
     }
     console.log(username + "" + password);
-    let sqlScript  = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = "+ password +""
+    let sqlScript  = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = "+ password +"";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
