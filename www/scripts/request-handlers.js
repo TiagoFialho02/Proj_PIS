@@ -109,7 +109,8 @@ function getExistingUsers(req, res) {
         password = req.body.password;
     }
     console.log(username + "" + password);
-    let sqlScript  = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = "+ password +"";
+    //let sqlScript  = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = "+ password +"";
+    let sqlScript  = "SELECT email, password, username FROM users";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -119,7 +120,7 @@ function getExistingUsers(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
-                res.send("found");
+                res.send(rows);
             } else {
                 res.send("failed");
             }
