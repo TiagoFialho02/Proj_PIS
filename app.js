@@ -28,7 +28,7 @@ app.get('/', function (request, response) {
 
 app.get('/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
-app.get('/getExistingUsers', requestHandlers.postExistingUsers);
+app.get('/postExistingUsers', requestHandlers.postExistingUsers);
 
 app.get('/getPosts', requestHandlers.getPosts);
 
