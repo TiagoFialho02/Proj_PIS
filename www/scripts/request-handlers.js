@@ -98,19 +98,18 @@ function getAnimalsInfoForItem(req, res) {
     connection.end();
 }
 
-function getExistingUsers(req, res) {
+function postExistingUsers(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
     };
-    let username = req.body.username;
-    let password = 0;
+    let email = req.body.email;
+    let password = "";
     if(req.body.password){
         password = req.body.password;
     }
-    console.log(username + "" + password);
-    //let sqlScript  = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = "+ password +"";
-    let sqlScript  = "SELECT email, password, username FROM users";
+    console.log(email + "<->" + password);
+    let sqlScript  = "SELECT username FROM users WHERE email = '" + email + "' AND password = "+ password +"";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -170,7 +169,7 @@ function getCatBreeds(req, res) {
 }
 
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
-module.exports.getExistingUsers = getExistingUsers;
+module.exports.postExistingUsers = postExistingUsers;
 module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
