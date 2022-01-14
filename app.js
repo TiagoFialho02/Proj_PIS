@@ -30,6 +30,8 @@ app.get('/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.post('/postExistingUsers', requestHandlers.postExistingUsers);
 
+app.post('/postUser', requestHandlers.postUser);
+
 app.get('/getPosts', requestHandlers.getPosts);
 
 app.get('/getDogBreeds', requestHandlers.getDogBreeds);

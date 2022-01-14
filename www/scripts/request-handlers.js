@@ -98,6 +98,62 @@ function getAnimalsInfoForItem(req, res) {
     connection.end();
 }
 
+function postUser(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let sqlScript  = "SELECT MAX(`id`) AS maxId FROM `users`";
+    let sql = mysql.format(sqlScript);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error1');
+        } else {
+            if (rows.length > 0) {
+                let id = "";
+                let string = JSON.stringify(rows);
+                for(let i=0; i<string.length; i++){
+                    if(string[i]==':'){
+                        do{
+                            id += string[i+1];
+                        }while(string[i+2]!='}')
+                    }
+                }
+                let email = req.body.email;
+                let username = req.body.username;
+                let password = req.body.password;
+                let birthdate = req.body.birthdate;
+                let image = (req.body.profile_image == null) ? "": req.body.profile_image;
+                let is_enterprise = req.body.is_enterprise;
+                let userId = (parseInt(id)) + 1;
+                if(email && username && password && birthdate && is_enterprise)
+                {
+                    let sqlScript1  = `INSERT INTO users VALUES ('${userId}', '${email}', '${username}', '${password}', '${birthdate}', '${image}', '${is_enterprise}')`;
+                    console.log(sqlScript1)
+                    let sql1 = mysql.format(sqlScript1);
+                    let connection1 = mysql.createConnection(connectionOptions);
+                    connection1.connect();
+                    connection1.query(sql1, function (err, rows, fields) {
+                        if (err) {
+                            console.log('Connection Error2');
+                        }  
+                    });
+                    connection1.end();
+                    res.send("user created")
+                }else{
+                    res.send("invalid data")
+                }
+            } else {
+                res.send("failed");
+            }
+        }
+    });  
+    connection.end();
+}
+
 function postExistingUsers(req, res) {
     var errorMessage = {
         internalCode: "",
@@ -108,9 +164,7 @@ function postExistingUsers(req, res) {
     if(req.body.password){
         password = req.body.password;
     }
-    console.log(email + "<->" + password);
     let sqlScript  = "SELECT username FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
-    console.log(sqlScript);
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -171,6 +225,7 @@ function getCatBreeds(req, res) {
 
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
+module.exports.postUser = postUser;
 module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
