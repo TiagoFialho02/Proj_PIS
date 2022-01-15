@@ -33,6 +33,15 @@ var dogAxiosOptions = {
     }
 }
 
+var BouthAxiosOptions = {
+    method: 'GET',
+    url: 'https://animalbreedapi.herokuapp.com/api/breeds',
+    headers:{
+        'API_KEY' : process.env.ANIMAL_BREEDS_API_KEY,
+        'ContentType' : 'application/json'
+    },
+}
+
 function getAnimalsInfoForItem(req, res) {
     var errorMessage = {
         internalCode: "",
@@ -224,9 +233,18 @@ function getCatBreeds(req, res) {
     });
 }
 
+function getBouthBreeds(req, res) {
+    axios.request(BouthAxiosOptions).then(function (response){
+        console.log(response.data);
+    }).catch(function(error){
+        console.log(error);
+    });
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
 module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
+module.exports.getBouthBreeds = getBouthBreeds;
