@@ -125,14 +125,13 @@ function postUser(req, res) {
                 let email = req.body.email;
                 let username = req.body.username;
                 let password = req.body.password;
-                let birthdate = req.body.birthdate;
+                let birthdate = req.body.birthDate;
                 let image = (req.body.profile_image == null) ? "": req.body.profile_image;
                 let is_enterprise = req.body.is_enterprise;
                 let userId = (parseInt(id)) + 1;
                 if(email && username && password && birthdate && is_enterprise)
                 {
                     let sqlScript1  = `INSERT INTO users VALUES ('${userId}', '${email}', '${username}', '${password}', '${birthdate}', '${image}', '${is_enterprise}')`;
-                    console.log(sqlScript1)
                     let sql1 = mysql.format(sqlScript1);
                     let connection1 = mysql.createConnection(connectionOptions);
                     connection1.connect();
@@ -142,12 +141,14 @@ function postUser(req, res) {
                         }  
                     });
                     connection1.end();
-                    res.send("user created")
+                    res.send("" + userId)
                 }else{
-                    res.send("invalid data")
+                    res.send("failed")
+                    console.log("oi")
                 }
             } else {
                 res.send("failed");
+                console.log("oi1")
             }
         }
     });  
