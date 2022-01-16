@@ -219,6 +219,7 @@ function getPosts(req, res) {
 
 function getDogBreeds(req, res) {
     axios.request(dogAxiosOptions).then(function (response){
+        res.send(response.data);
         console.log(response.data);
     }).catch(function(error){
         console.log(error);
@@ -227,6 +228,7 @@ function getDogBreeds(req, res) {
 
 function getCatBreeds(req, res) {
     axios.request(catAxiosOptions).then(function (response){
+        res.send(response.data);
         console.log(response.data);
     }).catch(function(error){
         console.log(error);
@@ -235,6 +237,7 @@ function getCatBreeds(req, res) {
 
 function getBothBreeds(req, res) {
     axios.request(BothAxiosOptions).then(function (response){
+        res.send(response.data);
         console.log(response.data);
     }).catch(function(error){
         console.log(error);
