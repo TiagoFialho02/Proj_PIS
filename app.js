@@ -34,11 +34,11 @@ app.post('/postUser', requestHandlers.postUser);
 
 app.get('/getPosts', requestHandlers.getPosts);
 
-app.post('/getDogBreeds', requestHandlers.getDogBreeds);
+app.get('/getDogBreeds', requestHandlers.getDogBreeds);
 
-app.post('/getCatBreeds', requestHandlers.getCatBreeds);
+app.get('/getCatBreeds', requestHandlers.getCatBreeds);
 
-app.post('/getBouthBreeds', requestHandlers.getBouthBreeds);
+app.get('/getBothBreeds', requestHandlers.getBothBreeds);
 
 app.listen(8080, function () {
     console.log("Server running at http://localhost:8080");

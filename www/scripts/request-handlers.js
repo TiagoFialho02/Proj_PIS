@@ -33,7 +33,7 @@ var dogAxiosOptions = {
     }
 }
 
-var BouthAxiosOptions = {
+var BothAxiosOptions = {
     method: 'GET',
     url: 'https://animalbreedapi.herokuapp.com/api/breeds',
     headers:{
@@ -233,8 +233,8 @@ function getCatBreeds(req, res) {
     });
 }
 
-function getBouthBreeds(req, res) {
-    axios.request(BouthAxiosOptions).then(function (response){
+function getBothBreeds(req, res) {
+    axios.request(BothAxiosOptions).then(function (response){
         console.log(response.data);
     }).catch(function(error){
         console.log(error);
@@ -247,4 +247,4 @@ module.exports.postUser = postUser;
 module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
-module.exports.getBouthBreeds = getBouthBreeds;
+module.exports.getBothBreeds = getBothBreeds;
