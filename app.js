@@ -7,9 +7,8 @@ require("dotenv").config();
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({ extend: false}))
+app.use(express.urlencoded({ extended: false}))
 
-//Middleware: contagem de acesso aos requests
 app.use(function (req, res, next) {
     if (countUrlAccess[req.url]) {        
         countUrlAccess[req.url] += 1;    
@@ -20,25 +19,45 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use('/api', function (req, res, next) {
+    verifyJWT(req, res, next);
+});
+
 app.get('/', function (request, response) {
     fs.readFile(__dirname + "/www/index.html", function(err, data){
         response.end(data);
     });
 });
 
-app.get('/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
+app.get('/api/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.post('/postExistingUsers', requestHandlers.postExistingUsers);
 
-app.post('/postUser', requestHandlers.postUser);
+app.post('/api/postUser', requestHandlers.postUser);
 
-app.get('/getPosts', requestHandlers.getPosts);
+app.get('/api/getPosts', requestHandlers.getPosts);
 
-app.get('/getDogBreeds', requestHandlers.getDogBreeds);
+app.get('/api/getDogBreeds', requestHandlers.getDogBreeds);
 
-app.get('/getCatBreeds', requestHandlers.getCatBreeds);
+app.get('/api/getCatBreeds', requestHandlers.getCatBreeds);
 
-app.get('/getBothBreeds', requestHandlers.getBothBreeds);
+app.get('/api/getBothBreeds', requestHandlers.getBothBreeds);
+
+function verifyJWT(req, res, next){
+    const token = req.headers['x-access-token'];
+    if (!token) return res.status(401).json({ 
+        auth: false, message: 'No token provided.' 
+    });    
+    jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
+        if (err) return res.status(500).json({ 
+            auth: false, message: 'Failed toauthenticate token.' 
+        });
+        
+        // se tudo estiver ok, salva no request para uso posterior      
+        req.email = decoded.email;      
+        next();    
+    });
+}
 
 app.listen(8080, function () {
     console.log("Server running at http://localhost:8080");

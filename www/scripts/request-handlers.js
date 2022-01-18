@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 require("dotenv").config();
 var axios = require("axios").default;
+const jwt = require('jsonwebtoken');
 
 const connectionOptions = {
     host: process.env.HOST,
@@ -148,6 +149,8 @@ function postUser(req, res) {
                         if (err) {
                             console.log('Connection Error2');
                         }  
+                        const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
+                        return res.json({ auth: true, token: token });
                     });
                     connection1.end();
                     res.send("" + userId)
@@ -174,7 +177,7 @@ function postExistingUsers(req, res) {
     if(req.body.password){
         password = req.body.password;
     }
-    let sqlScript  = "SELECT username FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
+    let sqlScript  = "SELECT id, username FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -184,7 +187,9 @@ function postExistingUsers(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
-                res.send(rows);
+                const userEmail = rows['email'];
+                const token = jwt.sign({ userEmail }, process.env.TOKEN_SECRET);
+                return res.json({ auth: true, token: token });
             } else {
                 res.send("failed");
             }
