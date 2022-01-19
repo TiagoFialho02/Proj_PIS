@@ -121,6 +121,7 @@ function postUser(req, res) {
         if (err) {
             res.json(errorMessage);
             console.log('Connection Error1');
+            return;
         } else {
             if (rows.length > 0) {
                 let id = "";
@@ -147,20 +148,20 @@ function postUser(req, res) {
                     connection1.connect();
                     connection1.query(sql1, function (err, rows, fields) {
                         if (err) {
-                            console.log('Connection Error2');
-                        }  
-                        const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-                        return res.json({ auth: true, token: token });
+                            console.log('Connection Error2 ' + err);
+                        }else{ 
+                            const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
+                            res.json({ auth: true, token: token, userId: userId });
+                        } 
                     });
                     connection1.end();
-                    res.send("" + userId)
                 }else{
-                    res.send("failed")
-                    console.log("oi")
+                    res.send("failed");
+                    console.log("oi");
                 }
             } else {
                 res.send("failed");
-                console.log("oi1")
+                console.log("oi1");
             }
         }
     });  

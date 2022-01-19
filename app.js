@@ -21,6 +21,7 @@ app.use(function (req, res, next) {
 
 app.use('/api', function (req, res, next) {
     verifyJWT(req, res, next);
+    next();
 });
 
 app.get('/', function (request, response) {
