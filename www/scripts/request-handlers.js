@@ -188,9 +188,9 @@ function postExistingUsers(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
-                const userEmail = rows['email'];
-                const token = jwt.sign({ userEmail }, process.env.TOKEN_SECRET);
-                return res.json({ auth: true, token: token });
+                const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
+                console.log(JSON.stringify(rows));
+                return res.json({ auth: true, token: token , id: rows['id'] , email: email, username: rows['username']});
             } else {
                 res.send("failed");
             }
