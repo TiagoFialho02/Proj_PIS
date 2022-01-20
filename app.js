@@ -34,7 +34,7 @@ app.get('/api/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.post('/postExistingUsers', requestHandlers.postExistingUsers);
 
-app.post('/api/postUser', requestHandlers.postUser);
+app.post('/postUser', requestHandlers.postUser);
 
 app.get('/api/getPosts', requestHandlers.getPosts);
 

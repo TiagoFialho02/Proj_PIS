@@ -118,59 +118,28 @@ function postUser(req, res) {
         internalCode: "",
         postalDescription: "***Connection Error***"
     };
-    let sqlScript  = "SELECT MAX(`id`) AS maxId FROM `users`";
-    let sql = mysql.format(sqlScript);
-    let connection = mysql.createConnection(connectionOptions);
-    connection.connect();
-    connection.query(sql, function (err, rows, fields) {
-        if (err) {
-            res.json(errorMessage);
-            console.log('Connection Error1');
-            return;
-        } else {
-            if (rows.length > 0) {
-                let id = "";
-                let string = JSON.stringify(rows);
-                for(let i=0; i<string.length; i++){
-                    if(string[i]==':'){
-                        do{
-                            id += string[i+1];
-                        }while(string[i+2]!='}')
-                    }
-                }
-                let email = req.body.email;
-                let username = req.body.username;
-                let password = req.body.password;
-                let birthdate = req.body.birthDate;
-                let image = (req.body.profile_image == null) ? "": req.body.profile_image;
-                let is_enterprise = req.body.is_enterprise;
-                let userId = (parseInt(id)) + 1;
-                if(email && username && password && birthdate && is_enterprise)
-                {
-                    let sqlScript1  = `INSERT INTO users VALUES ('${userId}', '${email}', '${username}', '${password}', '${birthdate}', '${image}', '${is_enterprise}')`;
-                    let sql1 = mysql.format(sqlScript1);
-                    let connection1 = mysql.createConnection(connectionOptions);
-                    connection1.connect();
-                    connection1.query(sql1, function (err, rows, fields) {
-                        if (err) {
-                            console.log('Connection Error2 ' + err);
-                        }else{ 
-                            const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-                            res.json({ auth: true, token: token, userId: userId });
-                        } 
-                    });
-                    connection1.end();
-                }else{
-                    res.send("failed");
-                    console.log("oi");
-                }
-            } else {
-                res.send("failed");
-                console.log("oi1");
-            }
-        }
-    });  
-    connection.end();
+    let email = req.body.email;
+    let username = req.body.username;
+    let password = req.body.password;
+    let birthdate = req.body.birthDate;
+    let image = (req.body.profile_image == null) ? "": req.body.profile_image;
+    let is_enterprise = req.body.is_enterprise;
+    if(email && username && password && birthdate && is_enterprise)
+    {
+        let sqlScript1  = `INSERT INTO users (email, username, password, birthdate, profile_image, is_enterprise) VALUES ('${email}', '${username}', '${password}', '${birthdate}', '${image}', '${is_enterprise}')`;
+        let sql1 = mysql.format(sqlScript1);
+        let connection1 = mysql.createConnection(connectionOptions);
+        connection1.connect();
+        connection1.query(sql1, function (err, rows, fields) {
+            if (err) {
+                console.log('Connection Error2 ' + err);
+            }else{ 
+            } 
+        });
+        connection1.end();
+    }else{
+        res.send("failed");
+    }
 }
 
 function postExistingUsers(req, res) {
