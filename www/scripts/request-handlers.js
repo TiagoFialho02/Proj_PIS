@@ -162,9 +162,30 @@ function postExistingUsers(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
+                let r = JSON.stringify(rows);
+                let id = "", username = "";
+                for(let i = 0; i < r.length; i++){
+                    //retira id e username da response
+                    if(r[i] == 'i' && r[i+1] == 'd'){
+                        for(let u = (i + 4); u < r.length; u++){
+                            if(r[u] != ','){
+                                id += r[u];
+                            }else{
+                                break;
+                            }         
+                        }
+                    }else if(r[i] == 'u' && r[i+1] == 's' && r[i+2] == 'e' && r[i+3] == 'r' && r[i+4] == 'n' && r[i+5] == 'a' && r[i+6] == 'm' && r[i+7] == 'e'){
+                        for(let u = (i + 11); u < r.length; u++){
+                            if(r[u] != '"'){
+                                username += r[u]; 
+                            }else{
+                                break;
+                            }
+                        }
+                    }
+                }
                 const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-                console.log(JSON.stringify(rows));
-                return res.json({ auth: true, token: token , id: rows['id'] , email: email, username: rows['username']});
+                return res.json({ auth: true, token: token , id: id , email: email, username: username});
             } else {
                 res.send("failed");
             }
