@@ -4,6 +4,7 @@ var fs = require("fs");
 var countUrlAccess = [];
 const { response } = require('express');
 require("dotenv").config();
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(express.json());
@@ -21,7 +22,6 @@ app.use(function (req, res, next) {
 
 app.use('/api', function (req, res, next) {
     verifyJWT(req, res, next);
-    next();
 });
 
 app.get('/', function (request, response) {
@@ -51,7 +51,7 @@ function verifyJWT(req, res, next){
     });    
     jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
         if (err) return res.status(500).json({ 
-            auth: false, message: 'Failed toauthenticate token.' 
+            auth: false, message: 'Failed to authenticate token.' 
         });
         
         // se tudo estiver ok, salva no request para uso posterior      

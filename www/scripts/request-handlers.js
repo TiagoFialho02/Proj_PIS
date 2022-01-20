@@ -18,7 +18,8 @@ var catAxiosOptions = {
         'ContentType' : 'application/json'
     },
     data:{
-        'type': "cat"
+        'type': "cat",
+        'orderBy': 'type'
     }
 }
 
@@ -30,7 +31,8 @@ var dogAxiosOptions = {
         'ContentType' : 'application/json'
     },
     data:{
-        'type': "dog"
+        'type': "cat",
+        'orderBy': 'type'
     }
 }
 
@@ -41,6 +43,9 @@ var BothAxiosOptions = {
         'API_KEY' : process.env.ANIMAL_BREEDS_API_KEY,
         'ContentType' : 'application/json'
     },
+    data:{
+        'orderBy': 'type'
+    }
 }
 
 function getAnimalsInfoForItem(req, res) {
