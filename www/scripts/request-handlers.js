@@ -132,8 +132,10 @@ function postUser(req, res) {
         connection1.connect();
         connection1.query(sql1, function (err, rows, fields) {
             if (err) {
+                res.send("success")
                 console.log('Connection Error2 ' + err);
             }else{ 
+                res.send("Invalid Data")
             } 
         });
         connection1.end();
