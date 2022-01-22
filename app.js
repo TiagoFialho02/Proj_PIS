@@ -24,12 +24,6 @@ app.use('/api', function (req, res, next) {
     verifyJWT(req, res, next);
 });
 
-app.get('/', function (request, response) {
-    fs.readFile(__dirname + "/www/index.html", function(err, data){
-        response.end(data);
-    });
-});
-
 app.get('/api/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.post('/postExistingUsers', requestHandlers.postExistingUsers);
@@ -43,6 +37,8 @@ app.get('/api/getDogBreeds', requestHandlers.getDogBreeds);
 app.get('/api/getCatBreeds', requestHandlers.getCatBreeds);
 
 app.get('/api/getBothBreeds', requestHandlers.getBothBreeds);
+
+app.get('/getProfileImage/:fileName?', requestHandlers.getProfileImage);
 
 function verifyJWT(req, res, next){
     const token = req.headers['x-access-token'];

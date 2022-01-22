@@ -2,6 +2,7 @@ const mysql = require("mysql");
 require("dotenv").config();
 var axios = require("axios").default;
 const jwt = require('jsonwebtoken');
+var fs = require("fs");
 
 const connectionOptions = {
     host: process.env.HOST,
@@ -122,25 +123,35 @@ function postUser(req, res) {
     let username = req.body.username;
     let password = req.body.password;
     let birthdate = req.body.birthDate;
-    let image = (req.body.profile_image == null) ? "": req.body.profile_image;
+    if(req.body.profile_imageFile == undefined){
+        fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.png";
+    }else{
+        fileLink = "http://localhost:8080/getProfileImage/" + req.body.profile_imageName;
+        fs.writeFile(req.body.profile_imageFile, "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + req.body.profile_imageName, err => {
+            if (err) {
+              console.error(err)
+              return;
+            }
+          })
+    }
     let is_enterprise = req.body.is_enterprise;
     if(email && username && password && birthdate && is_enterprise)
     {
-        let sqlScript1  = `INSERT INTO users (email, username, password, birthdate, profile_image, is_enterprise) VALUES ('${email}', '${username}', '${password}', '${birthdate}', '${image}', '${is_enterprise}')`;
+        let sqlScript1  = `INSERT INTO users (email, username, password, birthdate, profile_image, is_enterprise) VALUES ('${email}', '${username}', '${password}', '${birthdate}', '${fileLink}', '${is_enterprise}')`;
         let sql1 = mysql.format(sqlScript1);
         let connection1 = mysql.createConnection(connectionOptions);
         connection1.connect();
         connection1.query(sql1, function (err, rows, fields) {
             if (err) {
+                console.log('Connection Error2 ' + err); 
+                res.send("Invalid Data");          
+            }else{
                 res.send("success")
-                console.log('Connection Error2 ' + err);
-            }else{ 
-                res.send("Invalid Data")
-            } 
+            }
         });
         connection1.end();
     }else{
-        res.send("failed");
+        res.send("Invalid Data");
     }
 }
 
@@ -226,6 +237,20 @@ function getBothBreeds(req, res) {
     });
 }
 
+function getProfileImage(req, res){
+    let fileName = req.body.fileName == undefined ? req.params.fileName : req.body.fileName;
+    fs.readFile("C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + fileName, function(err, data){
+        res.end(data);
+    });
+}
+
+function imageUpload(text, name, type) {
+    var a = document.getElementById("a");
+    var file = new Blob([text], {type: type});
+    a.href = URL.createObjectURL(file);
+    a.download = name;
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
@@ -233,3 +258,4 @@ module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
 module.exports.getBothBreeds = getBothBreeds;
+module.exports.getProfileImage = getProfileImage;
