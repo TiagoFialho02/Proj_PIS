@@ -38,7 +38,9 @@ app.get('/api/getCatBreeds', requestHandlers.getCatBreeds);
 
 app.get('/api/getBothBreeds', requestHandlers.getBothBreeds);
 
-app.get('/getProfileImage/:fileName?', requestHandlers.getProfileImage);
+app.get('/api/getProfileImage/:fileName?', requestHandlers.getProfileImage);
+
+app.get('/api/putUserPreferences', requestHandlers.putUserPreferences);
 
 function verifyJWT(req, res, next){
     const token = req.headers['x-access-token'];

@@ -123,10 +123,11 @@ function postUser(req, res) {
     let username = req.body.username;
     let password = req.body.password;
     let birthdate = req.body.birthDate;
+    let is_preferences_set = req.body.is_preferences_set;
     if(req.body.profile_imageFile == undefined){
         fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.png";
     }else{
-        fileLink = "http://localhost:8080/getProfileImage/" + req.body.profile_imageName;
+        fileLink = "http://localhost:8080/api/getProfileImage/" + req.body.profile_imageName;
         fs.writeFile(req.body.profile_imageFile, "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + req.body.profile_imageName, err => {
             if (err) {
               console.error(err)
@@ -137,7 +138,7 @@ function postUser(req, res) {
     let is_enterprise = req.body.is_enterprise;
     if(email && username && password && birthdate && is_enterprise)
     {
-        let sqlScript1  = `INSERT INTO users (email, username, password, birthdate, profile_image, is_enterprise) VALUES ('${email}', '${username}', '${password}', '${birthdate}', '${fileLink}', '${is_enterprise}')`;
+        let sqlScript1  = `INSERT INTO users (email, username, password, birthdate, profile_image, is_enterprise, is_preferences_set) VALUES ('${email}', '${username}', '${password}', '${birthdate}', '${fileLink}', '${is_enterprise}', 'false')`;
         let sql1 = mysql.format(sqlScript1);
         let connection1 = mysql.createConnection(connectionOptions);
         connection1.connect();
@@ -165,7 +166,7 @@ function postExistingUsers(req, res) {
     if(req.body.password){
         password = req.body.password;
     }
-    let sqlScript  = "SELECT id, username, profile_image  FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
+    let sqlScript  = "SELECT id, username, profile_image, is_preferences_set  FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -177,7 +178,36 @@ function postExistingUsers(req, res) {
             if (rows.length > 0) {
                 let r = JSON.stringify(rows);
                 const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-                return res.json({ auth: true, token: token , id: rows[0].id , email: email, username: rows[0].username, profileImage : rows[0].profile_image});
+                return res.json({ auth: true, token: token , id: rows[0].id , email: email, username: rows[0].username, profileImage : rows[0].profile_image, is_preferences_set : rows[0].is_preferences_set});
+            } else {
+                res.send("failed");
+            }
+        }
+    });
+    
+    connection.end();
+}
+
+function postExistingUsers(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let preference = req.body.is_preferences_set;
+    let userId = req.body.userId;
+    let sqlScript  = "UPDATE `users` SET `is_preferences_set` = '" + preference + "' WHERE `users`.`id` = " + userId;
+    let sql = mysql.format(sqlScript);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error');
+        } else {
+            if (rows.length > 0) {
+                let r = JSON.stringify(rows);
+                const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
+                return res.json({ auth: true, token: token , id: rows[0].id , email: email, username: rows[0].username, profileImage : rows[0].profile_image, is_preferences_set : rows[0].is_preferences_set});
             } else {
                 res.send("failed");
             }
