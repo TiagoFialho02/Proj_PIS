@@ -166,7 +166,7 @@ function postExistingUsers(req, res) {
     if(req.body.password){
         password = req.body.password;
     }
-    let sqlScript  = "SELECT id, username, profile_image, is_preferences_set  FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
+    let sqlScript  = "SELECT id, username, profile_image, is_preferences_set, p_type, p_age, p_gender, p_breed  FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -178,7 +178,8 @@ function postExistingUsers(req, res) {
             if (rows.length > 0) {
                 let r = JSON.stringify(rows);
                 const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-                return res.json({ auth: true, token: token , id: rows[0].id , email: email, username: rows[0].username, profileImage : rows[0].profile_image, is_preferences_set : rows[0].is_preferences_set});
+                return res.json({ auth: true, token: token , id: rows[0].id , email: email, username: rows[0].username, profileImage : rows[0].profile_image, 
+                    is_preferences_set : rows[0].is_preferences_set, p_type : rows[0].p_type, p_age : rows[0].p_age, p_gender : rows[0].p_gender, p_breed : rows[0].p_breed});
             } else {
                 res.send("failed");
             }
@@ -188,14 +189,18 @@ function postExistingUsers(req, res) {
     connection.end();
 }
 
-function postExistingUsers(req, res) {
+function postUserPreferences(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
     };
     let preference = req.body.is_preferences_set;
+    let type = req.body.type;
+    let age = req.body.age;
+    let gender = req.body.gender;
+    let breed = req.body.breed;
     let userId = req.body.userId;
-    let sqlScript  = "UPDATE `users` SET `is_preferences_set` = '" + preference + "' WHERE `users`.`id` = " + userId;
+    let sqlScript  = "UPDATE `users` SET `is_preferences_set` = '" + preference + "' AND `p_type` = '" + type + "' AND `p_age` = '" + age + "' AND `p_gender` = '" + gender + "' AND `p_breed` = '" + breed + "' WHERE `users`.`id` = " + userId;
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -205,9 +210,7 @@ function postExistingUsers(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
-                let r = JSON.stringify(rows);
-                const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-                return res.json({ auth: true, token: token , id: rows[0].id , email: email, username: rows[0].username, profileImage : rows[0].profile_image, is_preferences_set : rows[0].is_preferences_set});
+                res.send("success");
             } else {
                 res.send("failed");
             }
@@ -289,3 +292,5 @@ module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
 module.exports.getBothBreeds = getBothBreeds;
 module.exports.getProfileImage = getProfileImage;
+module.exports.postUserPreferences = postUserPreferences;
+
