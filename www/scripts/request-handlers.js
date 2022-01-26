@@ -209,11 +209,7 @@ function postUserPreferences(req, res) {
             res.json(errorMessage);
             console.log('Connection Error');
         } else {
-            if (rows.length > 0) {
-                res.send("success");
-            } else {
-                res.send("failed");
-            }
+            res.send("success");
         }
     });
     
