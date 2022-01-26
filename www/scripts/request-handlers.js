@@ -249,6 +249,7 @@ function getDogBreeds(req, res) {
 }
 
 function getCatBreeds(req, res) {
+    console.log("to ca")
     axios.request(catAxiosOptions).then(function (response){
         res.send(response.data);
         console.log(response.data);
