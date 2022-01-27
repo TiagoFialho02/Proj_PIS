@@ -199,8 +199,9 @@ function postUserPreferences(req, res) {
     let age = req.body.age;
     let gender = req.body.gender;
     let breed = req.body.breed;
-    let userId = req.body.userId;
-    let sqlScript  = "UPDATE `users` SET `is_preferences_set` = '" + preference + "' AND `p_type` = '" + type + "' AND `p_age` = '" + age + "' AND `p_gender` = '" + gender + "' AND `p_breed` = '" + breed + "' WHERE `users`.`id` = " + userId;
+    let userId = req.body.userId;   
+    let sqlScript  = "UPDATE `users` SET `is_preferences_set` = '" + preference + "', `p_type` = '" + type + "', `p_age` = '" + age + "', `p_gender` = '" + gender + "', `p_breed` = '" + breed + "' WHERE `users`.`id` = " + userId;
+    console.log(sqlScript)
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -249,7 +250,6 @@ function getDogBreeds(req, res) {
 }
 
 function getCatBreeds(req, res) {
-    console.log("to ca")
     axios.request(catAxiosOptions).then(function (response){
         res.send(response.data);
         console.log(response.data);
