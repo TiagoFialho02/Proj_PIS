@@ -125,7 +125,7 @@ function postUser(req, res) {
     let birthdate = req.body.birthDate;
     let is_preferences_set = req.body.is_preferences_set;
     if(req.body.profile_imageFile == undefined){
-        fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.png";
+        fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.jpg";
     }else{
         fileLink = "http://localhost:8080/getProfileImage/" + req.body.profile_imageName;
         fs.writeFile(req.body.profile_imageFile, "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + req.body.profile_imageName, err => {
