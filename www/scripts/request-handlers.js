@@ -128,12 +128,13 @@ function postUser(req, res) {
         fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.jpg";
     }else{
         fileLink = "http://localhost:8080/getProfileImage/" + req.body.profile_imageName;
-        fs.writeFile(req.body.profile_imageFile, "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + req.body.profile_imageName, err => {
+        console.log(__dirname + "/images/" + req.body.profile_imageName)
+        /*fs.writeFile(req.body.profile_imageFile, __dirname + "/images/" + req.body.profile_imageName, err => {
             if (err) {
               console.error(err)
               return;
             }
-          })
+          })*/
     }
     let is_enterprise = req.body.is_enterprise;
     if(email && username && password && birthdate && is_enterprise)
@@ -273,14 +274,6 @@ function getProfileImage(req, res){
         res.send(data)
     });
 }
-
-function imageUpload(text, name, type) {
-    var a = document.getElementById("a");
-    var file = new Blob([text], {type: type});
-    a.href = URL.createObjectURL(file);
-    a.download = name;
-}
-
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
