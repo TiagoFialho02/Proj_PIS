@@ -127,7 +127,7 @@ function postUser(req, res) {
     if(req.body.profile_imageFile == undefined){
         fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.png";
     }else{
-        fileLink = "http://localhost:8080/api/getProfileImage/" + req.body.profile_imageName;
+        fileLink = "http://localhost:8080/getProfileImage/" + req.body.profile_imageName;
         fs.writeFile(req.body.profile_imageFile, "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + req.body.profile_imageName, err => {
             if (err) {
               console.error(err)
@@ -270,7 +270,7 @@ function getBothBreeds(req, res) {
 function getProfileImage(req, res){
     let fileName = req.body.fileName == undefined ? req.params.fileName : req.body.fileName;
     fs.readFile("C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + fileName, function(err, data){
-        res.end(data);
+        res.send(data)
     });
 }
 
