@@ -1,4 +1,5 @@
 var express = require('express'); 
+var bodyparser = require('body-parser'); 
 const requestHandlers = require("./www/scripts/request-handlers");
 var fs = require("fs");
 var countUrlAccess = [];
@@ -7,9 +8,17 @@ require("dotenv").config();
 const jwt = require('jsonwebtoken');
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false}))
-
+app.use(bodyparser.json({
+    limit: '100mb'
+  }));
+  
+app.use(bodyparser.urlencoded({
+limit: '100mb',
+parameterLimit: 100000,
+extended: true 
+}));
+app.use(bodyparser.urlencoded({extended: true}));
+app.use(bodyparser.json());
 app.use(function (req, res, next) {
     if (countUrlAccess[req.url]) {        
         countUrlAccess[req.url] += 1;    

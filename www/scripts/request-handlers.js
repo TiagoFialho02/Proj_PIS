@@ -3,6 +3,7 @@ require("dotenv").config();
 var axios = require("axios").default;
 const jwt = require('jsonwebtoken');
 var fs = require("fs");
+var uuid = require('uuid');
 
 const connectionOptions = {
     host: process.env.HOST,
@@ -123,18 +124,18 @@ function postUser(req, res) {
     let username = req.body.username;
     let password = req.body.password;
     let birthdate = req.body.birthDate;
-    let is_preferences_set = req.body.is_preferences_set;
+    let code = uuid.v1();
     if(req.body.profile_imageFile == undefined){
         fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.jpg";
     }else{
-        fileLink = "http://localhost:8080/getProfileImage/" + req.body.profile_imageName;
-        console.log(__dirname + "/images/" + req.body.profile_imageName)
-        /*fs.writeFile(req.body.profile_imageFile, __dirname + "/images/" + req.body.profile_imageName, err => {
+        fileLink = "http://localhost:8080/getProfileImage/" + (code + req.body.profile_imageName); 
+
+        fs.writeFile("/Users/tiago/Documents/GitHub/Proj_PSI/images/" + (code + req.body.profile_imageName), req.body.profile_imageFile,  {encoding:'base64'}, err => {
             if (err) {
-              console.error(err)
-              return;
+                console.error("erro")
+                return;
             }
-          })*/
+        });
     }
     let is_enterprise = req.body.is_enterprise;
     if(email && username && password && birthdate && is_enterprise)
@@ -202,7 +203,6 @@ function postUserPreferences(req, res) {
     let breed = req.body.breed;
     let userId = req.body.userId;   
     let sqlScript  = "UPDATE `users` SET `is_preferences_set` = '" + preference + "', `p_type` = '" + type + "', `p_age` = '" + age + "', `p_gender` = '" + gender + "', `p_breed` = '" + breed + "' WHERE `users`.`id` = " + userId;
-    console.log(sqlScript)
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
@@ -274,6 +274,7 @@ function getProfileImage(req, res){
         res.send(data)
     });
 }
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
