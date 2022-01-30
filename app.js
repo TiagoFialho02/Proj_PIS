@@ -13,12 +13,14 @@ app.use(bodyparser.json({
   }));
   
 app.use(bodyparser.urlencoded({
-limit: '100mb',
-parameterLimit: 100000,
-extended: true 
+    limit: '100mb',
+    parameterLimit: 100000,
+    extended: true 
 }));
+
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
+
 app.use(function (req, res, next) {
     if (countUrlAccess[req.url]) {        
         countUrlAccess[req.url] += 1;    
