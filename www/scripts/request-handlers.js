@@ -168,7 +168,7 @@ function postExistingUsers(req, res) {
     if(req.body.password){
         password = req.body.password;
     }
-    let sqlScript  = "SELECT id, username, profile_image, is_preferences_set, p_type, p_age, p_gender, p_breed  FROM users WHERE email = '" + email + "' AND password = '"+ password +"'";
+    let sqlScript  = "SELECT id, username, profile_image, is_preferences_set, p_type, p_age, p_gender, p_breed  FROM users WHERE email = '" + email + "' AND password = '"+ password + "'";
     let sql = mysql.format(sqlScript);
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
