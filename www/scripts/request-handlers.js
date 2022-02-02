@@ -126,9 +126,9 @@ function postUser(req, res) {
     let birthdate = req.body.birthDate;
     let code = uuid.v1();
     if(req.body.profile_imageFile == undefined){
-        fileLink = "http://localhost:8080/getProfileImage/profile_placeholder.jpg";
+        fileLink = "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg";
     }else{
-        fileLink = "http://localhost:8080/getProfileImage/" + (code + req.body.profile_imageName); 
+        fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + req.body.profile_imageName); 
 
         fs.writeFile("/Users/tiago/Documents/GitHub/Proj_PSI/images/" + (code + req.body.profile_imageName), req.body.profile_imageFile,  {encoding:'base64'}, err => {
             if (err) {
