@@ -6,18 +6,16 @@ var countUrlAccess = [];
 const { response } = require('express');
 require("dotenv").config();
 const jwt = require('jsonwebtoken');
-
 const app = express();
+
 app.use(bodyparser.json({
     limit: '100mb'
   }));
-  
 app.use(bodyparser.urlencoded({
     limit: '100mb',
     parameterLimit: 100000,
     extended: true 
 }));
-
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 
@@ -41,7 +39,7 @@ app.post('/postExistingUsers', requestHandlers.postExistingUsers);
 
 app.post('/postUser', requestHandlers.postUser);
 
-app.get('/api/getPosts', requestHandlers.getPosts);
+app.post('/api/postPosts', requestHandlers.postPosts);
 
 app.get('/api/getDogBreeds', requestHandlers.getDogBreeds);
 

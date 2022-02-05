@@ -218,12 +218,38 @@ function postUserPreferences(req, res) {
     connection.end();
 }
 
-function getPosts(req, res) {
+function postPosts(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
     };
-    let sql = mysql.format("SELECT * FROM posts");
+    let type = req.body.type;
+    let age = req.body.age;
+    let gender = req.body.gender;
+    let breed = req.body.breed;
+    let sql;
+    if(type == "Type" && age == "Age" && gender == "Gender" && breed == "Breed"){
+        sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
+        "`users`.`email`, `users`.`username`,`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, " + 
+        "`animals`.`gender`, `animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals` " + 
+        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id`");
+    }else{
+        if(age=="-1")
+            age = "`animals`.`age` < 1"
+        else if(age=="1-2")
+            age = "`animals`.`age` = 1 OR `animals`.`age` = 2"
+        else if(age=="3-5")
+            age = "`animals`.`age` = 3 OR `animals`.`age` = 4 OR `animals`.`age` = 5"
+        else if(age=="+5")
+            age = "`animals`.`age` > 5"
+
+        sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
+        "`users`.`email`, `users`.`username`,`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, " + 
+        "`animals`.`gender`, `animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals` " + 
+        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id` AND `animals`.`type` = '" + type + "' AND (" 
+        + age + ") AND `animals`.`gender` = '" + gender + "' AND `animals`.`breed` = '" + breed + "'");
+    }
+    console.log(sql)
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
@@ -232,9 +258,10 @@ function getPosts(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
+                console.log(rows)
                 res.json(rows);
             } else {
-                res.json(errorMessage);
+                res.send("noRows");
             }
         }
     });
@@ -278,7 +305,7 @@ function getProfileImage(req, res){
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
-module.exports.getPosts = getPosts;
+module.exports.postPosts = postPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
 module.exports.getBothBreeds = getBothBreeds;
