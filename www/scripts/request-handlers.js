@@ -302,6 +302,73 @@ function getProfileImage(req, res){
     });
 }
 
+function postAddFavoritePost(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    let postId = req.body.postId;
+    
+    let sql = mysql.format("INSERT INTO `favorites`(`id_user`, `id_post`) VALUES ('" + userId + "','" + postId + "')");
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error');
+        } else {
+            res.send("Added");
+        }
+    });
+    connection.end();
+}
+
+function postRemoveFavoritePost(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    let postId = req.body.postId;
+    
+    let sql = mysql.format("DELETE FROM `favorites` WHERE `id_user` =" + userId + " AND `id_post` = " + postId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+        } else {
+            res.send("Deleted");
+        }
+    });
+    connection.end();
+}
+
+function postGetFavoritePost(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    let postId = req.body.postId;
+    
+    let sql = mysql.format("SELECT * FROM `favorites` WHERE `id_user` =" + userId + " AND `id_post` = " + postId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+        } else {
+            if(rows.length > 0)
+                res.send("Found");
+            else
+                res.send("Not Found");
+        }
+    });
+    connection.end();
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
@@ -311,4 +378,6 @@ module.exports.getCatBreeds = getCatBreeds;
 module.exports.getBothBreeds = getBothBreeds;
 module.exports.getProfileImage = getProfileImage;
 module.exports.postUserPreferences = postUserPreferences;
-
+module.exports.postRemoveFavoritePost = postRemoveFavoritePost;
+module.exports.postAddFavoritePost = postAddFavoritePost;
+module.exports.postGetFavoritePost = postGetFavoritePost;

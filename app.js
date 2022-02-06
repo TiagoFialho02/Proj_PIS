@@ -51,6 +51,12 @@ app.get('/getProfileImage/:fileName?', requestHandlers.getProfileImage);
 
 app.post('/api/postUserPreferences', requestHandlers.postUserPreferences);
 
+app.post('/api/postRemoveFavoritePost', requestHandlers.postRemoveFavoritePost);
+
+app.post('/api/postAddFavoritePost', requestHandlers.postAddFavoritePost);
+
+app.post('/api/postGetFavoritePost', requestHandlers.postGetFavoritePost);
+
 function verifyJWT(req, res, next){
     
     const token = req.headers['x-access-token'];
