@@ -55,6 +55,8 @@ app.post('/api/postRemoveFavoritePost', requestHandlers.postRemoveFavoritePost);
 
 app.post('/api/postAddFavoritePost', requestHandlers.postAddFavoritePost);
 
+app.post('/api/postVerifyFavoritePost', requestHandlers.postVerifyFavoritePost);
+
 app.post('/api/postGetFavoritePost', requestHandlers.postGetFavoritePost);
 
 function verifyJWT(req, res, next){

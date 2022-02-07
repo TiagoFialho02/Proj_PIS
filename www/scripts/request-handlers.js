@@ -345,7 +345,7 @@ function postRemoveFavoritePost(req, res) {
     connection.end();
 }
 
-function postGetFavoritePost(req, res) {
+function postVerifyFavoritePost(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -369,6 +369,36 @@ function postGetFavoritePost(req, res) {
     connection.end();
 }
 
+function postGetFavoritePost(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.type;
+    let sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, `users`.`email`, `users`.`username`, " + 
+    "`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, `animals`.`gender`, " +
+    "`animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals`, `favorites` "+
+    "WHERE `posts`.`id` = `favorites`.`id_post` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id` AND " + 
+    "`favorites`.`id_user` = userId  AND `users`.`id` = `favorites`.`id_user`");
+    console.log(sql)
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error');
+        } else {
+            if (rows.length > 0) {
+                console.log(rows)
+                res.json(rows);
+            } else {
+                res.send("noRows");
+            }
+        }
+    });
+    connection.end();
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
@@ -380,4 +410,5 @@ module.exports.getProfileImage = getProfileImage;
 module.exports.postUserPreferences = postUserPreferences;
 module.exports.postRemoveFavoritePost = postRemoveFavoritePost;
 module.exports.postAddFavoritePost = postAddFavoritePost;
+module.exports.postVerifyFavoritePost = postVerifyFavoritePost;
 module.exports.postGetFavoritePost = postGetFavoritePost;
