@@ -59,6 +59,8 @@ app.post('/api/postVerifyFavoritePost', requestHandlers.postVerifyFavoritePost);
 
 app.post('/api/postGetFavoritePost', requestHandlers.postGetFavoritePost);
 
+app.post('/api/postUpdateUser', requestHandlers.postUpdateUser);
+
 function verifyJWT(req, res, next){
     
     const token = req.headers['x-access-token'];
