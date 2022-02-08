@@ -21,7 +21,7 @@ var catAxiosOptions = {
     },
     data:{
         'type': "cat",
-        'orderBy': 'type'
+        'orderBy': 'breed'
     }
 }
 
@@ -33,8 +33,8 @@ var dogAxiosOptions = {
         'ContentType' : 'application/json'
     },
     data:{
-        'type': "cat",
-        'orderBy': 'type'
+        'type': "dog",
+        'orderBy': 'breed'
     }
 }
 
@@ -228,28 +228,22 @@ function postPosts(req, res) {
     let gender = req.body.gender;
     let breed = req.body.breed;
     let sql;
-    if(type == "Type" && age == "Age" && gender == "Gender" && breed == "Breed"){
-        sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
-        "`users`.`email`, `users`.`username`,`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, " + 
-        "`animals`.`gender`, `animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals` " + 
-        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id`");
-    }else{
         if(age=="-1")
-            age = "`animals`.`age` < 1"
+            age = " AND (`animals`.`age` < 1)"
         else if(age=="1-2")
-            age = "`animals`.`age` = 1 OR `animals`.`age` = 2"
+            age = " AND (`animals`.`age` = 1 OR `animals`.`age` = 2)"
         else if(age=="3-5")
-            age = "`animals`.`age` = 3 OR `animals`.`age` = 4 OR `animals`.`age` = 5"
+            age = " AND (`animals`.`age` = 3 OR `animals`.`age` = 4 OR `animals`.`age` = 5)"
         else if(age=="+5")
-            age = "`animals`.`age` > 5"
-
+            age = " AND (`animals`.`age` > 5)"
+        else
+            age = ""
         sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
         "`users`.`email`, `users`.`username`,`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, " + 
         "`animals`.`gender`, `animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals` " + 
-        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id` AND `animals`.`type` = '" + type + "' AND (" 
-        + age + ") AND `animals`.`gender` = '" + gender + "' AND `animals`.`breed` = '" + breed + "'");
-    }
+        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id`" + type + age + gender + breed);
     let connection = mysql.createConnection(connectionOptions);
+    console.log(sql)
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
         if (err) {
@@ -380,7 +374,6 @@ function postGetFavoritePost(req, res) {
     "WHERE `posts`.`id` = `favorites`.`id_post` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id` AND " + 
     "`favorites`.`id_user` = " + userId + "  AND `users`.`id` = `favorites`.`id_user`");
     let connection = mysql.createConnection(connectionOptions);
-    console.log(sql)
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
         if (err) {
@@ -405,13 +398,12 @@ function postUpdateUser(req, res) {
     };
     let userId = req.body.userId;
     let password = req.body.password;
-    let sql = mysql.format("UPDATE `users` SET `password`=" + password + " WHERE `id` = " + userId);
+    let sql = mysql.format("UPDATE `users` SET `password`= '" + password + "' WHERE `id` = " + userId);
     let connection = mysql.createConnection(connectionOptions);
-    console.log(sql)
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
         if (err) {
-            res.json(errorMessage);
+            res.send("");
             console.log('Connection Error');
         } else {
             res.send("updated");
