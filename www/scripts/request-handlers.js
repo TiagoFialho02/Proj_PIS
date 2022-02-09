@@ -46,7 +46,7 @@ var BothAxiosOptions = {
         'ContentType' : 'application/json'
     },
     data:{
-        'orderBy': 'type'
+        'orderBy': 'breed'
     }
 }
 
@@ -412,6 +412,46 @@ function postUpdateUser(req, res) {
     connection.end();
 }
 
+function postInsertAnimal(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let type = req.body.type;
+    let breed = req.body.breed;
+    let age = req.body.age;
+    let gender = req.body.gender;
+    let photo = req.body.photo;
+    let name = req.body.name;
+    let code = uuid.v1();
+
+    if(req.body.imageFile == undefined || req.body.imageFile == ""){
+        fileLink = "http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg";
+    }else{
+        fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + photo); 
+
+        fs.writeFile("/Users/tiago/Documents/GitHub/Proj_PSI/images/" + (code + photo), req.body.imageFile,  {encoding:'base64'}, err => {
+            if (err) {
+                console.error(err)
+                return;
+            }
+        });
+    }
+
+    let sql = mysql.format("INSERT INTO `animals`(`type`, `breed`, `age`, `gender`, `photo`, `name`) VALUES " + 
+    "('" + type + "','" + breed + "','" + age + "','" + gender + "','" + fileLink + "','" + name + "')");
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.send("error");
+            console.log('Connection Error');
+        } else {
+            res.send("inserted");
+        }
+    });
+    connection.end();
+}
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
@@ -426,3 +466,4 @@ module.exports.postAddFavoritePost = postAddFavoritePost;
 module.exports.postVerifyFavoritePost = postVerifyFavoritePost;
 module.exports.postGetFavoritePost = postGetFavoritePost;
 module.exports.postUpdateUser = postUpdateUser;
+module.exports.postInsertAnimal = postInsertAnimal;

@@ -61,6 +61,8 @@ app.post('/api/postGetFavoritePost', requestHandlers.postGetFavoritePost);
 
 app.post('/api/postUpdateUser', requestHandlers.postUpdateUser);
 
+app.post('/api/postInsertAnimal', requestHandlers.postInsertAnimal);
+
 function verifyJWT(req, res, next){
     
     const token = req.headers['x-access-token'];
