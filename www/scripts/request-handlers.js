@@ -452,6 +452,33 @@ function postInsertAnimal(req, res) {
     });
     connection.end();
 }
+
+function postGetAnimals(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    let sqlScript = "SELECT `id`, `breed`, `name` FROM `animals` WHERE `id_user` = " + userId;
+    let sql = mysql.format(sqlScript);
+    let connection = mysql.createConnection(connectionOptions);
+
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error');
+        } else {
+            if (rows.length > 0) {
+                res.json(rows);
+            } else {
+                res.json("NOTFOUND");
+            }
+        }
+    });
+    connection.end();
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
@@ -467,3 +494,4 @@ module.exports.postVerifyFavoritePost = postVerifyFavoritePost;
 module.exports.postGetFavoritePost = postGetFavoritePost;
 module.exports.postUpdateUser = postUpdateUser;
 module.exports.postInsertAnimal = postInsertAnimal;
+module.exports.postGetAnimals = postGetAnimals;
