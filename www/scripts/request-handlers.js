@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 var fs = require("fs");
 var uuid = require('uuid');
 const imagesFolderPath = "/Users/tiago/Documents/GitHub/Proj_PSI/images/";
-
+const imagesFolderPathToRead = "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/";
 const connectionOptions = {
     host: process.env.HOST,
     user: process.env.USER,
@@ -292,7 +292,7 @@ function getBothBreeds(req, res) {
 
 function getProfileImage(req, res){
     let fileName = req.body.fileName == undefined ? req.params.fileName : req.body.fileName;
-    fs.readFile("C:" + imagesFolderPath + fileName, function(err, data){
+    fs.readFile(imagesFolderPathToRead + fileName, function(err, data){
         res.send(data)
     });
 }
