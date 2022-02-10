@@ -39,7 +39,7 @@ app.post('/postExistingUsers', requestHandlers.postExistingUsers);
 
 app.post('/postUser', requestHandlers.postUser);
 
-app.post('/api/postPosts', requestHandlers.postPosts);
+app.post('/api/postGetPosts', requestHandlers.postGetPosts);
 
 app.get('/api/getDogBreeds', requestHandlers.getDogBreeds);
 
@@ -64,6 +64,8 @@ app.post('/api/postUpdateUser', requestHandlers.postUpdateUser);
 app.post('/api/postInsertAnimal', requestHandlers.postInsertAnimal);
 
 app.post('/api/postGetAnimals', requestHandlers.postGetAnimals);
+
+app.post('/api/postPosts', requestHandlers.postPosts);
 
 function verifyJWT(req, res, next){
     

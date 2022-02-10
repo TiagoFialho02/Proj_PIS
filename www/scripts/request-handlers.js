@@ -125,7 +125,8 @@ function postUser(req, res) {
     let password = req.body.password;
     let birthdate = req.body.birthDate;
     let code = uuid.v1();
-    if(req.body.profile_imageFile == undefined){
+    console.log(req.body.profile_imageName)
+    if(req.body.profile_imageName == "profile_placeholder.png"){
         fileLink = "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg";
     }else{
         fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + req.body.profile_imageName); 
@@ -218,7 +219,7 @@ function postUserPreferences(req, res) {
     connection.end();
 }
 
-function postPosts(req, res) {
+function postGetPosts(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -423,6 +424,7 @@ function postInsertAnimal(req, res) {
     let gender = req.body.gender;
     let photo = req.body.photo;
     let name = req.body.name;
+    let userId = req.body.userId;
     let code = uuid.v1();
 
     if(req.body.imageFile == undefined || req.body.imageFile == ""){
@@ -438,8 +440,9 @@ function postInsertAnimal(req, res) {
         });
     }
 
-    let sql = mysql.format("INSERT INTO `animals`(`type`, `breed`, `age`, `gender`, `photo`, `name`) VALUES " + 
-    "('" + type + "','" + breed + "','" + age + "','" + gender + "','" + fileLink + "','" + name + "')");
+    let sql = mysql.format("INSERT INTO `animals`(`type`, `breed`, `age`, `gender`, `photo`, `name`, `id_user`) VALUES " + 
+    "('" + type + "','" + breed + "','" + age + "','" + gender + "','" + fileLink + "','" + name + "', " + userId + ")");
+    console.log(sql)
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
@@ -479,10 +482,30 @@ function postGetAnimals(req, res) {
     connection.end();
 }
 
+function postPosts(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let sql = mysql.format("INSERT INTO `posts`(`id_user`, `id_animal`, `description`) VALUES ('" + req.body.userId + "','" + req.body.animalId + "', '" + req.body.description + "')");
+    let connection = mysql.createConnection(connectionOptions);
+    console.log(sql)
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.send("ERROR");
+            console.log('Connection Error');
+        } else {
+            res.send("inserted");
+        }
+    });
+    connection.end();
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.postExistingUsers = postExistingUsers;
 module.exports.postUser = postUser;
-module.exports.postPosts = postPosts;
+module.exports.postGetPosts = postGetPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
 module.exports.getBothBreeds = getBothBreeds;
@@ -495,3 +518,4 @@ module.exports.postGetFavoritePost = postGetFavoritePost;
 module.exports.postUpdateUser = postUpdateUser;
 module.exports.postInsertAnimal = postInsertAnimal;
 module.exports.postGetAnimals = postGetAnimals;
+module.exports.postPosts = postPosts;
