@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20-Jan-2022 às 11:34
+-- Tempo de geração: 10-Fev-2022 às 18:46
 -- Versão do servidor: 10.4.22-MariaDB
 -- versão do PHP: 8.1.0
 
@@ -36,20 +36,47 @@ CREATE TABLE `animals` (
   `breed` varchar(45) NOT NULL,
   `age` double NOT NULL,
   `gender` varchar(15) NOT NULL,
-  `photo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+  `photo` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `name` varchar(200) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `animals`
 --
 
-INSERT INTO `animals` (`id`, `type`, `breed`, `age`, `gender`, `photo`) VALUES
-(1, 'dog', 'Yorkshire', 2, 'male', ''),
-(2, 'dog', 'Pinscher', 3, 'male', ''),
-(3, 'dog', 'Chihuahua', 1, 'male', ''),
-(4, 'dog', 'Buldogue', 3, 'female', ''),
-(5, 'cat', 'Siamese', 2, 'male', ''),
-(6, 'dog', 'Yorkshire', 0.3, 'female', '');
+INSERT INTO `animals` (`id`, `type`, `breed`, `age`, `gender`, `photo`, `name`, `id_user`) VALUES
+(1, 'Dog', 'Yorkshire', 2, 'Male', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 'Tobias', 2),
+(2, 'Dog', 'Pinscher', 3, 'Male', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 'Mantorras', 64),
+(3, 'Dog', 'Chihuahua', 1, 'Male', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 'Guga', 64),
+(4, 'Dog', 'Beagle', 3, 'Female', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 'Kiara', 63),
+(5, 'Cat', 'Siamese', 2, 'Female', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 'Mantorras', 63),
+(6, 'Dog', 'Yorkshire', 0.3, 'Female', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 'Yasmin', 3),
+(15, 'Cat', 'American shorthair', 2, 'Female', 'http://10.0.2.2:8080/getProfileImage/c9c12340-89d5-11ec-bad7-47d111f896a0Screenshot_20220128-041547.png', 'Luna', 1),
+(16, 'Cat', 'American shorthair', 2, 'Male', 'http://10.0.2.2:8080/getProfileImage/1fa3adf0-89d6-11ec-bad7-47d111f896a0IMG_20220115_000910.jpg', 'Totó', 3),
+(19, 'Cat', 'American curl', 3, 'Male', 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', '123', 64),
+(26, 'Dog', 'Chihuahua', 4, 'Male', 'http://10.0.2.2:8080/getProfileImage/400fcd50-8a10-11ec-8052-cf6329e42a3dIMG_20220115_000937.jpg', 'Black', 67);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `favorites`
+--
+
+CREATE TABLE `favorites` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `id_post` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `favorites`
+--
+
+INSERT INTO `favorites` (`id`, `id_user`, `id_post`) VALUES
+(32, 64, 2),
+(35, 67, 17),
+(36, 67, 1);
 
 -- --------------------------------------------------------
 
@@ -61,18 +88,19 @@ CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_animal` int(11) NOT NULL,
-  `is_active` bit(1) NOT NULL,
-  `description` longtext NOT NULL
+  `is_active` bit(1) NOT NULL DEFAULT b'1',
+  `description` longtext NOT NULL,
+  `pub_date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `posts`
 --
 
-INSERT INTO `posts` (`id`, `id_user`, `id_animal`, `is_active`, `description`) VALUES
-(1, 2, 2, b'1', 'Um cão muito bonito e também muito meigo.'),
-(2, 5, 4, b'1', 'Cão bastante meigo e bonito. Pode estar ao lado de crianças.'),
-(3, 1, 5, b'0', '...');
+INSERT INTO `posts` (`id`, `id_user`, `id_animal`, `is_active`, `description`, `pub_date`) VALUES
+(1, 64, 2, b'1', 'Um cão muito bonito e também muito meigo.', '2022-02-04'),
+(2, 63, 4, b'1', 'Cão bastante meigo e bonito. Pode estar ao lado de crianças.', '2022-02-04'),
+(17, 67, 26, b'1', 'Cão do Gonçalo                                                                                                                                                      ', '2022-02-10');
 
 -- --------------------------------------------------------
 
@@ -86,25 +114,31 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(64) NOT NULL,
   `birthdate` date NOT NULL,
-  `profile_image` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `is_enterprise` tinyint(1) NOT NULL DEFAULT 0
+  `profile_image` varchar(300) NOT NULL,
+  `is_enterprise` tinyint(1) NOT NULL DEFAULT 0,
+  `is_preferences_set` tinyint(11) NOT NULL DEFAULT 0,
+  `p_type` varchar(200) DEFAULT NULL,
+  `p_age` varchar(200) DEFAULT NULL,
+  `p_gender` varchar(200) DEFAULT NULL,
+  `p_breed` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `username`, `password`, `birthdate`, `profile_image`, `is_enterprise`) VALUES
-(1, 'mariamariana@gmail.com', 'MariaM', 'mariamaria', '1990-01-08', '', 1),
-(2, 'zecaAntonio@gmail.com', 'ZecaAn', '', '1989-01-22', '', 1),
-(3, 'joaquim123@gmail.com', 'Joaquim1', '', '1996-05-04', '', 0),
-(4, 'jecasmalacuec33o@gmail.co', 'Jecas123', '', '1994-08-07', '', 0),
-(5, '2200matias@gmail.com', 'Matias', '', '1980-07-01', '', 1),
-(6, 'admin@admin.com', 'admin', 'adminadmin', '0000-00-00', NULL, 1),
-(7, 'tiagofialho2002@gmail.com', 'TiagoFialho', '12341234', '1994-01-15', 'src/main/res/drawable/profile_placeholder.png', 0),
-(8, 'ritacoisa@hotmail.com', 'Rita1234', '12341234', '1994-01-15', '/storage/emulated/0/Pictures/IMG_20220115_000937.jpg', 0),
-(9, 'goncas@gmail.com', 'Gonçalo Rebouço', 'goncasgoncas', '2001-12-19', '/storage/emulated/0/Pictures/IMG_20220115_000937.jpg', 0),
-(10, 'goncs@gmail.com', 'Gonçalo Rebou', 'goncasgoncs', '2001-12-19', '/storage/emulated/0/Pictures/IMG_20220115_000937.jpg', 0);
+INSERT INTO `users` (`id`, `email`, `username`, `password`, `birthdate`, `profile_image`, `is_enterprise`, `is_preferences_set`, `p_type`, `p_age`, `p_gender`, `p_breed`) VALUES
+(1, 'mariamariana@gmail.com', 'MariaM', 'mariamaria', '1990-01-08', '0', 1, 0, NULL, NULL, '', '0'),
+(2, 'zecaAntonio@gmail.com', 'ZecaAn', '', '1989-01-22', '0', 1, 0, NULL, NULL, '', '0'),
+(3, 'joaquim123@gmail.com', 'Joaquim1', '', '1996-05-04', '0', 0, 0, NULL, NULL, '', '0'),
+(4, 'jecasmalacuec33o@gmail.co', 'Jecas123', '', '1994-08-07', '0', 0, 0, NULL, NULL, '', '0'),
+(5, '2200matias@gmail.com', 'Matias', '', '1980-07-01', '0', 1, 0, NULL, NULL, '', '0'),
+(63, '1234@gmail.com', '1234', '12341234', '1998-01-22', 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', 0, 1, 'dog', 'Age', 'Female', 'Breed'),
+(64, 'admin@admin.com', 'admin', 'adminadmin', '1978-01-25', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'Type', 'Age', 'Gender', 'Breed'),
+(65, '12341@gmail.com', '12341', '12342134', '1997-01-28', 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', 0, 1, 'cat', '1-2', 'Female', 'Siamese'),
+(66, '12341234@gmail.com', '12341234', '12341234', '1991-01-28', 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', 0, 1, 'dog', '3-5', 'Female', 'Buldogue'),
+(67, 'gonzalo@gmail.com', 'Gonzalo', 'gonzalo', '2001-12-19', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'dog', '1-2', 'Gender', 'Breed'),
+(71, '12341@gmail.com', '12341234', '12341234', '1997-02-10', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'dog', '3-5', 'Male', 'Breed');
 
 --
 -- Índices para tabelas despejadas
@@ -115,7 +149,17 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `birthdate`, `profil
 --
 ALTER TABLE `animals`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `post_ibfk` (`id_user`);
+
+--
+-- Índices para tabela `favorites`
+--
+ALTER TABLE `favorites`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `FK` (`id_post`),
+  ADD KEY `FK1` (`id_user`);
 
 --
 -- Índices para tabela `posts`
@@ -142,23 +186,42 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `animals`
 --
 ALTER TABLE `animals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de tabela `favorites`
+--
+ALTER TABLE `favorites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de tabela `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- Restrições para despejos de tabelas
 --
+
+--
+-- Limitadores para a tabela `animals`
+--
+ALTER TABLE `animals`
+  ADD CONSTRAINT `post_ibfk` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `favorites`
+--
+ALTER TABLE `favorites`
+  ADD CONSTRAINT `FK` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `posts`
