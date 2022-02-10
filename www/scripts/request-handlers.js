@@ -4,6 +4,7 @@ var axios = require("axios").default;
 const jwt = require('jsonwebtoken');
 var fs = require("fs");
 var uuid = require('uuid');
+const imagesFolderPath = "/Users/tiago/Documents/GitHub/Proj_PSI/images/";
 
 const connectionOptions = {
     host: process.env.HOST,
@@ -131,7 +132,7 @@ function postUser(req, res) {
     }else{
         fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + req.body.profile_imageName); 
 
-        fs.writeFile("/Users/tiago/Documents/GitHub/Proj_PSI/images/" + (code + req.body.profile_imageName), req.body.profile_imageFile,  {encoding:'base64'}, err => {
+        fs.writeFile(imagesFolderPath + (code + req.body.profile_imageName), req.body.profile_imageFile,  {encoding:'base64'}, err => {
             if (err) {
                 console.error("erro")
                 return;
@@ -291,7 +292,7 @@ function getBothBreeds(req, res) {
 
 function getProfileImage(req, res){
     let fileName = req.body.fileName == undefined ? req.params.fileName : req.body.fileName;
-    fs.readFile("C:/Users/tiago/Documents/GitHub/Proj_PSI/images/" + fileName, function(err, data){
+    fs.readFile("C:" + imagesFolderPath + fileName, function(err, data){
         res.send(data)
     });
 }
@@ -432,7 +433,7 @@ function postInsertAnimal(req, res) {
     }else{
         fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + photo); 
 
-        fs.writeFile("/Users/tiago/Documents/GitHub/Proj_PSI/images/" + (code + photo), req.body.imageFile,  {encoding:'base64'}, err => {
+        fs.writeFile(imagesFolderPath + (code + photo), req.body.imageFile,  {encoding:'base64'}, err => {
             if (err) {
                 console.error(err)
                 return;
