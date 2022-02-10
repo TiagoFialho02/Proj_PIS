@@ -243,7 +243,7 @@ function postGetPosts(req, res) {
         sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
         "`users`.`email`, `users`.`username`,`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, " + 
         "`animals`.`gender`, `animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals` " + 
-        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id`" + type + age + gender + breed);
+        "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id`" + type + age + gender + breed + " ORDER BY pub_date DESC");
     let connection = mysql.createConnection(connectionOptions);
     console.log(sql)
     connection.connect();
@@ -374,7 +374,7 @@ function postGetFavoritePost(req, res) {
     "`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, `animals`.`gender`, " +
     "`animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals`, `favorites` "+
     "WHERE `posts`.`id` = `favorites`.`id_post` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id` AND " + 
-    "`favorites`.`id_user` = " + userId + "  AND `users`.`id` = `favorites`.`id_user`");
+    "`favorites`.`id_user` = " + userId + "  AND `users`.`id` = `favorites`.`id_user` ORDER BY posts.pub_date DESC");
     let connection = mysql.createConnection(connectionOptions);
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
