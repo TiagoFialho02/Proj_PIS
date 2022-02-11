@@ -476,7 +476,7 @@ function postGetAnimals(req, res) {
             if (rows.length > 0) {
                 res.json(rows);
             } else {
-                res.json("NOTFOUND");
+                res.send("NOTFOUND");
             }
         }
     });
