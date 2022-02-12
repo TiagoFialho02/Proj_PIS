@@ -160,7 +160,7 @@ function postUser(req, res) {
     }
 }
 
-function postExistingUsers(req, res) {
+function getExistingUsers(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -220,7 +220,7 @@ function postUserPreferences(req, res) {
     connection.end();
 }
 
-function postGetPosts(req, res) {
+function getPosts(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -297,7 +297,7 @@ function getProfileImage(req, res){
     });
 }
 
-function postAddFavoritePost(req, res) {
+function postFavoritePost(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -319,7 +319,7 @@ function postAddFavoritePost(req, res) {
     connection.end();
 }
 
-function postRemoveFavoritePost(req, res) {
+function deleteFavoritePost(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -340,7 +340,7 @@ function postRemoveFavoritePost(req, res) {
     connection.end();
 }
 
-function postVerifyFavoritePost(req, res) {
+function verifyFavoritePost(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -364,7 +364,7 @@ function postVerifyFavoritePost(req, res) {
     connection.end();
 }
 
-function postGetFavoritePost(req, res) {
+function getFavoritePost(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -393,7 +393,7 @@ function postGetFavoritePost(req, res) {
     connection.end();
 }
 
-function postUpdateUser(req, res) {
+function updateUser(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -414,7 +414,7 @@ function postUpdateUser(req, res) {
     connection.end();
 }
 
-function postInsertAnimal(req, res) {
+function postAnimal(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -457,7 +457,7 @@ function postInsertAnimal(req, res) {
     connection.end();
 }
 
-function postGetAnimals(req, res) {
+function getAnimalsByUser(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -483,7 +483,7 @@ function postGetAnimals(req, res) {
     connection.end();
 }
 
-function postPosts(req, res) {
+function postPost(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
@@ -504,19 +504,19 @@ function postPosts(req, res) {
 }
 
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
-module.exports.postExistingUsers = postExistingUsers;
+module.exports.getExistingUsers = getExistingUsers;
 module.exports.postUser = postUser;
-module.exports.postGetPosts = postGetPosts;
+module.exports.getPosts = getPosts;
 module.exports.getDogBreeds = getDogBreeds;
 module.exports.getCatBreeds = getCatBreeds;
 module.exports.getBothBreeds = getBothBreeds;
 module.exports.getProfileImage = getProfileImage;
 module.exports.postUserPreferences = postUserPreferences;
-module.exports.postRemoveFavoritePost = postRemoveFavoritePost;
-module.exports.postAddFavoritePost = postAddFavoritePost;
-module.exports.postVerifyFavoritePost = postVerifyFavoritePost;
-module.exports.postGetFavoritePost = postGetFavoritePost;
-module.exports.postUpdateUser = postUpdateUser;
-module.exports.postInsertAnimal = postInsertAnimal;
-module.exports.postGetAnimals = postGetAnimals;
-module.exports.postPosts = postPosts;
+module.exports.deleteFavoritePost = deleteFavoritePost;
+module.exports.postFavoritePost = postFavoritePost;
+module.exports.verifyFavoritePost = verifyFavoritePost;
+module.exports.getFavoritePost = getFavoritePost;
+module.exports.updateUser = updateUser;
+module.exports.postAnimal = postAnimal;
+module.exports.getAnimalsByUser = getAnimalsByUser;
+module.exports.postPost = postPost;

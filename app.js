@@ -35,11 +35,11 @@ app.use('/api', function (req, res, next) {
 
 app.get('/api/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
-app.post('/postExistingUsers', requestHandlers.postExistingUsers);
+app.post('/getExistingUsers', requestHandlers.getExistingUsers);
 
 app.post('/postUser', requestHandlers.postUser);
 
-app.post('/api/postGetPosts', requestHandlers.postGetPosts);
+app.post('/api/getPosts', requestHandlers.getPosts);
 
 app.get('/api/getDogBreeds', requestHandlers.getDogBreeds);
 
@@ -51,21 +51,21 @@ app.get('/getProfileImage/:fileName?', requestHandlers.getProfileImage);
 
 app.post('/api/postUserPreferences', requestHandlers.postUserPreferences);
 
-app.post('/api/postRemoveFavoritePost', requestHandlers.postRemoveFavoritePost);
+app.post('/api/deleteFavoritePost', requestHandlers.deleteFavoritePost);
 
-app.post('/api/postAddFavoritePost', requestHandlers.postAddFavoritePost);
+app.post('/api/postFavoritePost', requestHandlers.postFavoritePost);
 
-app.post('/api/postVerifyFavoritePost', requestHandlers.postVerifyFavoritePost);
+app.post('/api/verifyFavoritePost', requestHandlers.verifyFavoritePost);
 
-app.post('/api/postGetFavoritePost', requestHandlers.postGetFavoritePost);
+app.post('/api/getFavoritePost', requestHandlers.getFavoritePost);
 
-app.post('/api/postUpdateUser', requestHandlers.postUpdateUser);
+app.post('/api/updateUser', requestHandlers.updateUser);
 
-app.post('/api/postInsertAnimal', requestHandlers.postInsertAnimal);
+app.post('/api/postAnimal', requestHandlers.postAnimal);
 
-app.post('/api/postGetAnimals', requestHandlers.postGetAnimals);
+app.post('/api/getAnimalsByUser', requestHandlers.getAnimalsByUser);
 
-app.post('/api/postPosts', requestHandlers.postPosts);
+app.post('/api/postPost', requestHandlers.postPost);
 
 function verifyJWT(req, res, next){
     
