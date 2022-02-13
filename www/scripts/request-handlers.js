@@ -193,7 +193,7 @@ function getExistingUsers(req, res) {
     connection.end();
 }
 
-function postUserPreferences(req, res) {
+function updateUserPreferences(req, res) {
     var errorMessage = {
         internalCode: "",
         postalDescription: "***Connection Error***"
