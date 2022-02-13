@@ -50,7 +50,7 @@ app.get('/api/getBothBreeds', requestHandlers.getBothBreeds);
 
 app.get('/getProfileImage/:fileName?', requestHandlers.getProfileImage);
 
-app.post('/api/postUserPreferences', requestHandlers.postUserPreferences);
+app.post('/api/postUserPreferences', requestHandlers.updateUserPreferences);
 
 app.post('/api/deleteFavoritePost', requestHandlers.deleteFavoritePost);
 
