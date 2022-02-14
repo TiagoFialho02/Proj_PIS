@@ -405,7 +405,7 @@ function updateUser(req, res) {
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
         if (err) {
-            res.send("");
+            res.send(errorMessage);
             console.log('Connection Error');
         } else {
             res.send("updated");
@@ -503,6 +503,110 @@ function postPost(req, res) {
     connection.end();
 }
 
+function deletePost(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    let postId=req.body.postId;
+    
+    let sql = mysql.format("DELETE FROM `posts` WHERE `id_user` =" + userId+ " AND `id` = " + postId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+        } else {
+            res.send("Deleted");
+        }
+    });
+    connection.end();
+}
+
+function deleteAnimal(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    let animalId=req.body.animalId;
+    
+    let sql = mysql.format("DELETE FROM `animals` WHERE `id_user` =" + userId+ " AND `id` = " + animalId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+        } else {
+            res.send("Deleted");
+        }
+    });
+    connection.end();
+}
+
+function deleteUser(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let userId = req.body.userId;
+    
+    let sql = mysql.format("DELETE FROM `users` WHERE `id` =" + userId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+        } else {
+            res.send("Deleted");
+        }
+    });
+    connection.end();
+}
+
+function updatePost(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let postId=req.body.postId;
+    let description = req.body.description;
+    let sql = mysql.format("UPDATE `posts` SET `description`= '" + description + "' WHERE `posts`.`id` = " + postId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error');
+        } else {
+            res.send("updated");
+        }
+    });
+    connection.end();
+}
+
+function updateAnimal(req, res) {
+    var errorMessage = {
+        internalCode: "",
+        postalDescription: "***Connection Error***"
+    };
+    let animalId=req.body.animalId;
+    let nome = req.body.name;
+    let sql = mysql.format("UPDATE `animals` SET `name`= '" + nome + "' WHERE `animals`.`id` = " + animalId);
+    let connection = mysql.createConnection(connectionOptions);
+    connection.connect();
+    connection.query(sql, function (err, rows, fields) {
+        if (err) {
+            res.json(errorMessage);
+            console.log('Connection Error');
+        } else {
+            res.send("updated");
+        }
+    });
+    connection.end();
+}
+
 module.exports.getAnimalsInfoForItem = getAnimalsInfoForItem;
 module.exports.getExistingUsers = getExistingUsers;
 module.exports.postUser = postUser;
@@ -520,3 +624,8 @@ module.exports.updateUser = updateUser;
 module.exports.postAnimal = postAnimal;
 module.exports.getAnimalsByUser = getAnimalsByUser;
 module.exports.postPost = postPost;
+module.exports.deletePost = deletePost;
+module.exports.deleteAnimal = deleteAnimal;
+module.exports.deleteUser = deleteUser;
+module.exports.updatePost = updatePost;
+module.exports.updateAnimal = updateAnimal;

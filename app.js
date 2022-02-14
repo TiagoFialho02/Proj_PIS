@@ -10,7 +10,7 @@ const app = express();
 
 app.use(bodyparser.json({
     limit: '100mb'
-  }));
+}));
 app.use(bodyparser.urlencoded({
     limit: '100mb',
     parameterLimit: 100000,
@@ -67,6 +67,16 @@ app.post('/api/postAnimal', requestHandlers.postAnimal);
 app.post('/api/getAnimalsByUser', requestHandlers.getAnimalsByUser);
 
 app.post('/api/postPost', requestHandlers.postPost);
+
+app.post('/api/deletePost', requestHandlers.deletePost);
+
+app.post('/api/deleteAnimal', requestHandlers.deleteAnimal);
+
+app.post('/api/updatePost', requestHandlers.updatePost);
+
+app.post('/api/updateAnimal', requestHandlers.updateAnimal);
+
+app.post('/api/deleteUser', requestHandlers.deleteUser);
 
 function verifyJWT(req, res, next){
     
