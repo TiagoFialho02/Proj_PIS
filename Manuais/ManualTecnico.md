@@ -527,13 +527,13 @@ Durante o uso desta API, em todos os *URLs* que têm /api/, terá de ser incluí
  Para controlo de acesso na App foi implementado outro *middleware* para a contagem de pedidos efetuados ao servidor
 
     app.use(function (req, res, next) {
-   	 if (countUrlAccess[req.url]) {
-   	 	countUrlAccess[req.url] += 1;
-  	  } else {   
-   	 	countUrlAccess[req.url] = 1;
-   	 }
-    	console.log(countUrlAccess.sort());
-   	next();
+	    if (countUrlAccess[req.url]) {
+		    countUrlAccess[req.url] += 1;
+	    } else {   
+		    countUrlAccess[req.url] = 1;
+	    }
+	    console.log(countUrlAccess.sort());
+	    next();
     });
 
 
