@@ -34,6 +34,10 @@ app.use('/api', function (req, res, next) {
     verifyJWT(req, res, next);
 });
 
+app.get('/main', function (req, res) {
+    
+});
+
 app.get('/api/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.post('/getExistingUsers', requestHandlers.getExistingUsers);

@@ -127,7 +127,6 @@ function postUser(req, res) {
     let password = req.body.password;
     let birthdate = req.body.birthDate;
     let code = uuid.v1();
-    console.log(req.body.profile_imageName)
     if(req.body.profile_imageName == "profile_placeholder.png"){
         fileLink = "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg";
     }else{
@@ -231,22 +230,39 @@ function getPosts(req, res) {
     let gender = req.body.gender;
     let breed = req.body.breed;
     let sql;
-        if(age=="-1")
-            age = " AND (`animals`.`age` < 1)"
-        else if(age=="1-2")
-            age = " AND (`animals`.`age` = 1 OR `animals`.`age` = 2)"
-        else if(age=="3-5")
-            age = " AND (`animals`.`age` = 3 OR `animals`.`age` = 4 OR `animals`.`age` = 5)"
-        else if(age=="+5")
-            age = " AND (`animals`.`age` > 5)"
-        else
-            age = ""
-        sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
+    if(!(type == "Type" || type == ""))
+        type = (" AND `animals`.`type` = '" + type + "'");
+    else
+        type = ""
+
+    if(age == "-1")
+        age = " AND (`animals`.`age` < 1)"
+    else if(age == "1-2")
+        age = " AND (`animals`.`age` = 1 OR `animals`.`age` = 2)"
+    else if(age == "3-5")
+        age = " AND (`animals`.`age` = 3 OR `animals`.`age` = 4 OR `animals`.`age` = 5)"
+    else if(age == "+5")
+        age = " AND (`animals`.`age` > 5)"
+    else
+        age = ""
+
+    if(!(gender == "Gender" || gender == ""))
+        gender = " AND `animals`.`gender` = '" + gender + "'";
+    else
+        gender = "";    
+
+    if(!(breed == "Breed" || breed == ""))
+        breed = " AND `animals`.`breed` = '" + breed + "'";
+    else
+        breed = "";
+
+    sql = mysql.format("SELECT `posts`.`id` postId, `posts`.`description`, `posts`.`pub_date`, `users`.`id` userId, " + 
         "`users`.`email`, `users`.`username`,`users`.`profile_image`, `animals`.`id` animalId, `animals`.`type`, `animals`.`breed`, `animals`.`age`, " + 
         "`animals`.`gender`, `animals`.`photo`, `animals`.`name` FROM `posts`, `users`, `animals` " + 
         "WHERE `posts`.`id_user` = `users`.`id` AND `posts`.`is_active` = 1 AND `posts`.`id_animal` = `animals`.`id`" + type + age + gender + breed + " ORDER BY pub_date DESC");
-    let connection = mysql.createConnection(connectionOptions);
+    
     console.log(sql)
+    let connection = mysql.createConnection(connectionOptions);
     connection.connect();
     connection.query(sql, function (err, rows, fields) {
         if (err) {
