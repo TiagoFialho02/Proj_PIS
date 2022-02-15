@@ -50,7 +50,7 @@ app.get('/api/getBothBreeds', requestHandlers.getBothBreeds);
 
 app.get('/getProfileImage/:fileName?', requestHandlers.getProfileImage);
 
-app.post('/api/postUserPreferences', requestHandlers.updateUserPreferences);
+app.post('/api/updateUserPreferences', requestHandlers.updateUserPreferences);
 
 app.post('/api/deleteFavoritePost', requestHandlers.deleteFavoritePost);
 
@@ -68,15 +68,15 @@ app.post('/api/getAnimalsByUser', requestHandlers.getAnimalsByUser);
 
 app.post('/api/postPost', requestHandlers.postPost);
 
-app.post('/api/deletePost', requestHandlers.deletePost);
+app.delete('/api/deletePost', requestHandlers.deletePost);
 
-app.post('/api/deleteAnimal', requestHandlers.deleteAnimal);
+app.delete('/api/deleteAnimal', requestHandlers.deleteAnimal);
 
-app.post('/api/updatePost', requestHandlers.updatePost);
+app.put('/api/updatePost', requestHandlers.updatePost);
 
-app.post('/api/updateAnimal', requestHandlers.updateAnimal);
+app.put('/api/updateAnimal', requestHandlers.updateAnimal);
 
-app.post('/api/deleteUser', requestHandlers.deleteUser);
+app.delete('/api/deleteUser', requestHandlers.deleteUser);
 
 function verifyJWT(req, res, next){
     

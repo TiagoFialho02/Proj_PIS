@@ -4,8 +4,9 @@ var axios = require("axios").default;
 const jwt = require('jsonwebtoken');
 var fs = require("fs");
 var uuid = require('uuid');
-const imagesFolderPath = "/Users/tiago/Documents/GitHub/Proj_PSI/images/";
+const imagesFolderPathToWrite = "/Users/tiago/Documents/GitHub/Proj_PSI/images/";
 const imagesFolderPathToRead = "C:/Users/tiago/Documents/GitHub/Proj_PSI/images/";
+
 const connectionOptions = {
     host: process.env.HOST,
     user: process.env.USER,
@@ -132,7 +133,7 @@ function postUser(req, res) {
     }else{
         fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + req.body.profile_imageName); 
 
-        fs.writeFile(imagesFolderPath + (code + req.body.profile_imageName), req.body.profile_imageFile,  {encoding:'base64'}, err => {
+        fs.writeFile(imagesFolderPathToWrite + (code + req.body.profile_imageName), req.body.profile_imageFile,  {encoding:'base64'}, err => {
             if (err) {
                 console.error("erro")
                 return;
@@ -474,6 +475,7 @@ function getAnimalsByUser(req, res) {
             console.log('Connection Error');
         } else {
             if (rows.length > 0) {
+                console.log(rows);
                 res.json(rows);
             } else {
                 res.send("NOTFOUND");
