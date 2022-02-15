@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11-Fev-2022 às 17:35
+-- Tempo de geração: 15-Fev-2022 às 19:13
 -- Versão do servidor: 10.4.22-MariaDB
 -- versão do PHP: 8.1.0
 
@@ -79,7 +79,9 @@ CREATE TABLE `favorites` (
 INSERT INTO `favorites` (`id`, `id_user`, `id_post`) VALUES
 (35, 67, 17),
 (36, 67, 1),
-(56, 73, 1);
+(56, 73, 1),
+(102, 80, 1),
+(103, 80, 2);
 
 -- --------------------------------------------------------
 
@@ -104,11 +106,7 @@ INSERT INTO `posts` (`id`, `id_user`, `id_animal`, `is_active`, `description`, `
 (1, 64, 2, b'1', 'Um cão muito bonito e também muito meigo.', '2022-02-04'),
 (2, 63, 4, b'1', 'Cão bastante meigo e bonito. Pode estar ao lado de crianças.', '2022-02-04'),
 (17, 67, 26, b'1', 'Cão do Gonçalo                                                                                                                                                      ', '2022-02-10'),
-(18, 64, 27, b'1', 'Pequena, brincalhona e muito meiga. Gosta de crianças e não reage mal a desconhecidos', '2022-02-10'),
-(22, 2, 15, b'1', 'jnbasdiugbajsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', '2022-02-11'),
-(23, 2, 29, b'1', 'redcvghvgvhbbjhjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n\n\n', '2022-02-11'),
-(24, 2, 30, b'1', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n', '2022-02-11'),
-(25, 2, 31, b'1', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n', '2022-02-11');
+(18, 64, 27, b'1', 'Pequena, brincalhona e muito meiga. Gosta de crianças e não reage mal a desconhecidos', '2022-02-10');
 
 -- --------------------------------------------------------
 
@@ -144,7 +142,8 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `birthdate`, `profil
 (66, '12341234@gmail.com', '12341234', '12341234', '1991-01-28', 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', 0, 1, 'dog', '3-5', 'Female', 'Buldogue'),
 (67, 'gonzalo@gmail.com', 'Gonzalo', 'gonzalo', '2001-12-19', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'dog', '1-2', 'Gender', 'Breed'),
 (73, '123411@gmail.com', '1234123', '12341234', '1975-02-10', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'dog', '1-2', 'Gender', 'Breed'),
-(75, 'erica@gmail.com', 'erica2', '123456', '2001-02-02', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'both', '+5', 'Gender', 'Breed');
+(75, 'erica@gmail.com', 'erica2', '123456', '2001-02-02', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'both', '+5', 'Gender', 'Breed'),
+(80, 'iarix@gmail.com', 'Iara', 'iara1234', '1995-02-12', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'both', '3-5', 'Gender', 'Breed');
 
 --
 -- Índices para tabelas despejadas
@@ -199,7 +198,7 @@ ALTER TABLE `animals`
 -- AUTO_INCREMENT de tabela `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT de tabela `posts`
@@ -211,7 +210,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- Restrições para despejos de tabelas
