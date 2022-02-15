@@ -450,7 +450,7 @@ function postAnimal(req, res) {
     }else{
         fileLink = "http://10.0.2.2:8080/getProfileImage/" + (code + photo); 
 
-        fs.writeFile(imagesFolderPath + (code + photo), req.body.imageFile,  {encoding:'base64'}, err => {
+        fs.writeFile(imagesFolderPathToWrite + (code + photo), req.body.imageFile,  {encoding:'base64'}, err => {
             if (err) {
                 console.error(err)
                 return;

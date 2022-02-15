@@ -1,4 +1,5 @@
 
+
 # Documentação da API #
 
 Esta API fornece todos os meios para qualquer aplicação cliente que necessite manipular dados acerca de **utilizadores**, **animais**, **publicações de animais** e **favoritos**.
@@ -6,11 +7,14 @@ Esta API fornece todos os meios para qualquer aplicação cliente que necessite 
 ## Alterações necessárias para o funcionamento da API  ##
 
  1. Correr o ficheiro ***create_adopt4paws.sql*** que está na pasta *MySqlScripts* no *phpAdmin* do *Xamp*
- 2. Efetuar a alteração nas seguintes variáveis situadas no início do documento *request-handlers.js* que está na pasta *scripts* da pasta *www*:
+
+ 2. Desativar, caso esteja ativo, a proteção contra Ransomware, no windows defender, para poderem ser gravadas as imagens no disco.
+
+ 3. Efetuar a alteração nas seguintes variáveis situadas no início do documento *request-handlers.js* que está na pasta *scripts* da pasta *www*:
  ***imagesFolderPathToWrite*** = apenas caminho, sem nome do disco, da pasta *imagens* na diretoria; 
 ***imagesFolderPathToRead*** = caminho completo, da pasta *imagens* na diretoria.
 
- 3. Criar ficheiro com o nome ".*env*", na diretoria inicial, com o seguinte texto:   
+ 4. Criar ficheiro com o nome ".*env*", na diretoria inicial, com o seguinte texto:   
 
 > TOKEN_SECRET=*string de caracteres aleatórios (quanto mais extensa melhor)* 
 > ANIMAL_BREEDS_API_KEY = OGRDjwilwChLCjGLElCo
