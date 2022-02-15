@@ -1,4 +1,3 @@
-
 # Documentação da API #
 
 Esta API fornece todos os meios para qualquer aplicação cliente que necessite manipular dados acerca de **utilizadores**, **animais**, **publicações de animais** e **favoritos**.
