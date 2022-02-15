@@ -1,3 +1,4 @@
+
 # Documentação da API #
 
 Esta API fornece todos os meios para qualquer aplicação cliente que necessite manipular dados acerca de **utilizadores**, **animais**, **publicações de animais** e **favoritos**.
@@ -41,14 +42,14 @@ Permite consultar todos os animais criados, podendo ser filtrados pelos elemento
 ### Resposta ###
     [
     {
-    "id": 3,
-    "type": "Dog",
-    "breed": "Chihuahua",
-    "age": 1,
-    "gender": "Male",
-    "photo": "http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg",
-    "name": "Guga",
-    "id_user": 64
+	    "id": 3,
+	    "type": "Dog",
+	    "breed": "Chihuahua",
+	    "age": 1,
+	    "gender": "Male",
+	    "photo": "http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg",
+	    "name": "Guga",
+	    "id_user": 64
     }
     ]
 
@@ -68,19 +69,19 @@ Mostra todas as raças dos animais presentes na API usada, necessários para a a
 ### Resposta ###
     [
     {
-    "id": 401,
-    "breed": "Abyssinian",
-    "type": "cat"
+	    "id": 401,
+	    "breed": "Abyssinian",
+	    "type": "cat"
     },
     {
-    "id": 412,
-    "breed": "American Bobtail",
-    "type": "cat"
+	    "id": 412,
+	    "breed": "American Bobtail",
+	    "type": "cat"
     },
     {
-    "id": 983,
-    "breed": "American Burmese",
-    "type": "cat"
+	    "id": 983,
+	    "breed": "American Burmese",
+	    "type": "cat"
     }
     ...
     ]
@@ -121,19 +122,21 @@ Serve para efetuar o *login*, retornando o *token* necessário à autenticação
 - *password*
 
 ### Resposta ###
+    [
     {
-    "auth": true,
-    "token": *token a ser usado pelo cliente*,
-    "id": 64,
-    "email": "admin@admin.com",
-    "username": "admin",
-    "profileImage": "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg",
-    "is_preferences_set": 1,
-    "p_type": "Type",
-    "p_age": "Age",
-    "p_gender": "Gender",
-    "p_breed": "Breed"
+	    "auth": true,
+	    "token": *token a ser usado pelo cliente*,
+	    "id": 64,
+	    "email": "admin@admin.com",
+	    "username": "admin",
+	    "profileImage": "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg",
+	    "is_preferences_set": 1,
+	    "p_type": "Type",
+	    "p_age": "Age",
+	    "p_gender": "Gender",
+	    "p_breed": "Breed"
     }
+    ]
     
 ----------
 
@@ -213,33 +216,34 @@ Retorna os posts filtrados pelos elementos enviados no body.
 ### Resposta ###
 
     [
-    { postId: 1, 
-    description: 'Um cão muito bonito e também muito meigo.', 
-    pub_date: 2022-02-04T00:00:00.000Z, 
-    userId: 64, email: 'admin@admin.com', 
-    username: 'admin', 
-    profile_image: 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 
-    animalId: 2, 
-    type: 'Dog', 
-    breed: 'Pinscher', 
-    age: 3, 
-    gender: 'Male', 
-    photo: 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', name: 'Mantorras' 
+    { 
+	    postId: 1, 
+	    description: 'Um cão muito bonito e também muito meigo.', 
+	    pub_date: 2022-02-04T00:00:00.000Z, 
+	    userId: 64, email: 'admin@admin.com', 
+	    username: 'admin', 
+	    profile_image: 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 
+	    animalId: 2, 
+	    type: 'Dog', 
+	    breed: 'Pinscher', 
+	    age: 3, 
+	    gender: 'Male', 
+	    photo: 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', name: 'Mantorras' 
     }, 
     { 
-    postId: 2, 
-    description: 'Cão bastante meigo e bonito. Pode estar ao lado de crianças.', 
-    pub_date: 2022-02-04T00:00:00.000Z, 
-    userId: 63, 
-    email: '1234@gmail.com', 
-    username: '1234', 
-    profile_image: 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', animalId: 4, 
-    type: 'Dog', 
-    breed: 'Beagle', 
-    age: 3, 
-    gender: 'Female', 
-    photo: 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 
-    name: 'Kiara' 
+	    postId: 2, 
+	    description: 'Cão bastante meigo e bonito. Pode estar ao lado de crianças.', 
+	    pub_date: 2022-02-04T00:00:00.000Z, 
+	    userId: 63, 
+	    email: '1234@gmail.com', 
+	    username: '1234', 
+	    profile_image: 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', animalId: 4, 
+	    type: 'Dog', 
+	    breed: 'Beagle', 
+	    age: 3, 
+	    gender: 'Female', 
+	    photo: 'http://10.0.2.2:8080/getProfileImage/animalplaceholder.jpg', 
+	    name: 'Kiara' 
     } 
     ]
     
@@ -281,20 +285,20 @@ Mostra todos os favoritos de um determinado utilizador. Retorna os dados do util
 ### Resposta ###
     [
     {
-        "postId": 17,
-        "description": "Cão do Gonçalo                                                                                                                                                      ",
-        "pub_date": "2022-02-10T00:00:00.000Z",
-        "userId": 67,
-        "email": "gonzalo@gmail.com",
-        "username": "Gonzalo",
-        "profile_image": "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg",
-        "animalId": 26,
-        "type": "Dog",
-        "breed": "Chihuahua",
-        "age": 4,
-        "gender": "Male",
-        "photo": "http://10.0.2.2:8080/getProfileImage/400fcd50-8a10-11ec-8052-cf6329e42a3dIMG_20220115_000937.jpg",
-        "name": "Black"
+	    "postId": 17,
+	    "description": "Cão do Gonçalo                                                                                                                                                      ",
+	    "pub_date": "2022-02-10T00:00:00.000Z",
+	    "userId": 67,
+	    "email": "gonzalo@gmail.com",
+	    "username": "Gonzalo",
+	    "profile_image": "http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg",
+	    "animalId": 26,
+	    "type": "Dog",
+	    "breed": "Chihuahua",
+	    "age": 4,
+	    "gender": "Male",
+	    "photo": "http://10.0.2.2:8080/getProfileImage/400fcd50-8a10-11ec-8052-cf6329e42a3dIMG_20220115_000937.jpg",
+	    "name": "Black"
     }
     ]
     
@@ -365,13 +369,15 @@ Retorna os animais de criados por um determinado utilizador.
 ### Resposta ###
 
     [ 
-    { id: 2, 
-    breed: 'Pinscher', 
-    name: 'Mantorras' 
+    { 
+	    id: 2, 
+	    breed: 'Pinscher', 
+	    name: 'Mantorras' 
     }, 
-    { id: 3, 
-    breed: 'Chihuahua', 
-    name: 'Guga' 
+    { 
+	    id: 3, 
+	    breed: 'Chihuahua', 
+	    name: 'Guga' 
     }, 
     ]
 

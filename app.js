@@ -34,13 +34,6 @@ app.use('/api', function (req, res, next) {
     verifyJWT(req, res, next);
 });
 
-app.get('/main', function (req, res) {
-    console.log(__dirname + "\\www\\ManualTecnico.md")
-    fs.readFile(__dirname + "/www/ManualTecnico.md", function(err, data){
-        res.send(data)
-    });
-});
-
 app.get('/api/getAnimalsInfoForItem', requestHandlers.getAnimalsInfoForItem);
 
 app.post('/getExistingUsers', requestHandlers.getExistingUsers);
