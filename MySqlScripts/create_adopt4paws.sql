@@ -135,7 +135,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `birthdate`, `profile_image`, `is_enterprise`, `is_preferences_set`, `p_type`, `p_age`, `p_gender`, `p_breed`) VALUES
 (1, 'mariamariana@gmail.com', 'MariaM', 'mariamaria', '1990-01-08', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 1, 1, 'dog', 'Age', 'Male', 'Yorkshire Terrier'),
-(2, 'zecaAntonio@gmail.com', 'ZecaAn', '123456', '1989-01-22', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 1, 1, 'dog', '-1', 'Male', 'Breed'),
+(2, 'zecaantonio@gmail.com', 'ZecaAn', '123456', '1989-01-22', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 1, 1, 'dog', '-1', 'Male', 'Breed'),
 (63, '1234@gmail.com', '1234', '12341234', '1998-01-22', 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', 0, 1, 'dog', 'Age', 'Female', 'Breed'),
 (64, 'admin@admin.com', 'admin', 'adminadmin', '1978-01-25', 'http://10.0.2.2:8080/getProfileImage/profile_placeholder.jpg', 0, 1, 'Type', 'Age', 'Gender', 'Breed'),
 (65, '12341@gmail.com', '12341', '12342134', '1997-01-28', 'http://10.0.2.2:8080/getProfileImage/c76a7580-8073-11ec-8768-13ec6fe2e9b1IMG_20220115_000910.jpg', 0, 1, 'cat', '1-2', 'Female', 'Siamese'),
